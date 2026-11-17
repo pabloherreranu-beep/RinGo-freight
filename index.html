@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RinGo Freight</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+  body{background:#0A1931;color:white;display:flex;justify-content:center}
+  .phone{width:100%;max-width:420px;min-height:100vh;padding:20px}
+  .logo{font-size:32px;font-weight:900;color:#00E5FF;text-align:center;margin:20px 0 5px}
+  .sub{text-align:center;color:#ccc;font-size:14px;margin-bottom:20px}
+  .card{background:white;color:#0A1931;border-radius:16px;padding:16px;margin-bottom:12px}
+  .card h3{margin-bottom:6px}
+  .card p{font-size:13px;color:#555}
+  .btn{width:100%;padding:16px;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;margin-top:10px}
+  .btn-cyan{background:#00E5FF;color:#0A1931}
+  .btn-outline{background:transparent;color:#00E5FF;border:2px solid #00E5FF}
+  input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:10px;font-size:15px}
+  .hidden{display:none}
+  .success{background:#00C853;color:white;padding:12px;border-radius:10px;text-align:center;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div id="pantalla9">
+    <div class="logo">RinGo Freight</div>
+    <div class="sub">Elige tu rol para empezar • Panamá</div>
+    <div class="card" onclick="elegir('Empresa')"><h3>🏢 Empresa</h3><p>Publica contenedores y rastrea tu carga</p></div>
+    <div class="card" onclick="elegir('Transportista')"><h3>🚛 Transportista</h3><p>Acepta fletes y gana por viaje</p></div>
+    <div class="card" onclick="elegir('Corredor')"><h3>🤝 Corredor</h3><p>Gestiona y gana comisión</p></div>
+    <p style="text-align:center;font-size:12px;color:#aaa;margin-top:10px" id="rolElegido">Toca un rol para continuar</p>
+    <button class="btn btn-cyan" onclick="irPublicar()">Continuar →</button>
+  </div>
+  <div id="pantalla1" class="hidden">
+    <div class="logo" style="font-size:24px">Publicar Flete</div>
+    <div class="sub" id="muestraRol">Rol: Empresa</div>
+    <div class="card">
+      <label>Origen</label>
+      <select id="origen"><option>Balboa</option><option>Manzanillo</option><option>Cristóbal</option><option>Parque Sur</option></select>
+      <label>Destino</label>
+      <select id="destino"><option>Parque Sur</option><option>Balboa</option><option>Colon</option><option>David</option></select>
+      <label>Precio $</label>
+      <input id="precio" type="number" value="200">
+      <label>Tipo Contenedor</label>
+      <select id="tipo"><option>40ft - Refrigerado</option><option>20ft - Seco</option><option>40ft - Seco</option></select>
+      <button class="btn btn-cyan" onclick="publicar()">Publicar Flete</button>
+      <div id="resultado"></div>
+    </div>
+    <button class="btn btn-outline" onclick="volver()">← Volver</button>
+  </div>
+</div>
+<script>
+  let rol = "";
+  function elegir(r){ rol=r; document.getElementById('rolElegido').innerText = "Elegiste: " + r; }
+  function irPublicar(){
+    if(!rol){ alert("Elige un rol primero"); return; }
+    document.getElementById('pantalla9').classList.add('hidden');
+    document.getElementById('pantalla1').classList.remove('hidden');
+    document.getElementById('muestraRol').innerText = "Rol: " + rol;
+  }
+  function volver(){
+    document.getElementById('pantalla1').classList.add('hidden');
+    document.getElementById('pantalla9').classList.remove('hidden');
+  }
+  function publicar(){
+    let o=document.getElementById('origen').value;
+    let d=document.getElementById('destino').value;
+    let p=document.getElementById('precio').value;
+    document.getElementById('resultado').innerHTML = "<div class='success'>✅ Flete publicado: "+o+" → "+d+" por $"+p+"<br>Ya está en vivo para choferes</div>";
+  }
+</script>
+</body>
+</html>
