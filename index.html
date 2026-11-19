@@ -19,7 +19,7 @@ label{display:block;margin-top:14px;font-size:18px}
 select,input{width:100%;padding:13px;border-radius:12px;border:1px solid #ddd;background:#f1f5f9;font-size:17px;margin-top:6px}
 .hidden{display:none}
 .box{background:#f1f5f9;border-radius:14px;padding:12px;margin-top:10px}
-.rol{border:2px solid #e2e8f0;border-radius:14px;padding:12px;margin-top:10px;cursor:pointer}
+.rol{border:2px solid #e2e8f0;border-radius:14px;padding:16px;margin-top:10px;cursor:pointer}
 .rol.sel{border-color:#00e5ff;background:#ecfeff}
 .mapa{height:230px;background:#dbeafe;border-radius:16px;position:relative;overflow:hidden;margin-top:10px}
 .calle{position:absolute;background:white}
@@ -39,24 +39,31 @@ select,input{width:100%;padding:13px;border-radius:12px;border:1px solid #ddd;ba
 .pendiente{background:#fef3c7;border:2px solid #f59e0b;border-radius:14px;padding:12px;margin-top:12px}
 .dosprecios{display:flex;gap:10px;margin-top:10px}
 .precioCaja{flex:1;text-align:center;border-radius:12px;padding:10px}
+.logo-wrap{text-align:center;margin:6px 0 2px}
+.logo-box{width:110px;height:110px;background:#000;border-radius:28px;margin:0 auto;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 10px 25px rgba(0,0,0,.25)}
+.logo-R{font-size:72px;font-weight:900;line-height:1;background:linear-gradient(135deg,#00e5ff,#2563eb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;position:relative}
+.logo-pin{position:absolute;right:18px;bottom:18px;font-size:20px}
+.logo-by{font-size:12px;letter-spacing:3px;color:#94a3b8;margin-top:6px;font-weight:600}
+.logo-title{font-size:22px;font-weight:900;margin:8px 0 0}
 </style>
 </head>
 <body>
 
 <div id="pantallaInicio" class="card">
-<h1>🚛 RinGo Freight</h1>
-<p class="sub">Conecta corredores, transportistas y clientes en Panamá</p>
-<h2>¿Quién eres?</h2>
-<div class="rol" onclick="elegir('Corredor',this)"><b>📦 Corredor</b><br><span class="sub">Publica fletes y gana comisión</span></div>
-<div class="rol" onclick="elegir('Transportista',this)"><b>🚛 Transportista</b><br><span class="sub">Acepta viajes y gana dinero</span></div>
-<div class="rol" onclick="elegir('Cliente',this)"><b>🏢 Cliente / Importador</b><br><span class="sub">Mueve tu contenedor</span></div>
+<div class="logo-wrap"><div class="logo-box"><div class="logo-R">R</div><div class="logo-pin">📍</div></div><div class="logo-by">by PH</div><div class="logo-title">RinGo Freight</div></div>
+<p class="sub" style="text-align:center">Conecta corredores, transportistas y clientes en Panamá</p>
+<h2>¿Quién eres? Toca uno:</h2>
+<div class="rol" onclick="elegirDirecto('Corredor',this)"><b>📦 Corredor</b><br><span class="sub">Publica fletes y gana comisión - Toca aquí</span></div>
+<div class="rol" onclick="elegirDirecto('Transportista',this)"><b>🚛 Transportista</b><br><span class="sub">Acepta viajes y gana dinero - Toca aquí</span></div>
+<div class="rol" onclick="elegirDirecto('Cliente',this)"><b>🏢 Cliente / Importador</b><br><span class="sub">Mueve tu contenedor - Toca aquí</span></div>
 <button class="btn" onclick="continuar()">Continuar →</button>
-<p class="sub" style="text-align:center">Balboa • Colón • Parque Sur • Manzanillo</p>
+<p class="sub" style="text-align:center">Si tocas la tarjeta ya entras directo</p>
 </div>
 
 <div id="pantallaFletes" class="card hidden">
-<h1>Fletes en Vivo</h1>
-<p class="sub" id="bienvenida">Hola Corredor</p>
+<div style="display:flex;align-items:center;gap:10px"><div style="width:48px;height:48px;background:#000;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;background:linear-gradient(135deg,#000,#000);color:#00e5ff;flex-shrink:0">R</div><div><b style="font-size:18px">RinGo Freight</b><br><span class="sub" style="font-size:11px;letter-spacing:2px">by PH</span></div></div>
+<h1 style="margin-top:12px">Fletes en Vivo</h1>
+<p class="sub" id="bienvenida">Hola</p>
 <div id="panelTransportista" class="hidden">
 <div class="ganancia"><div style="font-size:14px;color:#166534">💰 MIS GANANCIAS HOY</div><div style="font-size:32px;font-weight:bold;color:#166534" id="ganancias">$0</div><div class="sub" id="viajesHechos">0 viajes aceptados</div></div>
 </div>
@@ -133,141 +140,23 @@ let precioOriginal=200;
 let precioPropuesto=0;
 let precioFinal=200;
 let estado="disponible";
-
-function elegir(rol,el){rolElegido=rol;document.querySelectorAll('.rol').forEach(r=>r.classList.remove('sel'));el.classList.add('sel');}
-function continuar(){
-document.getElementById('pantallaInicio').classList.add('hidden');
-document.getElementById('pantallaFletes').classList.remove('hidden');
-document.getElementById('bienvenida').innerText="Hola "+rolElegido;
-if(rolElegido=="Transportista"){
-document.getElementById('panelTransportista').classList.remove('hidden');
-document.getElementById('panelCorredor').classList.add('hidden');
-}else{
-document.getElementById('panelTransportista').classList.add('hidden');
-document.getElementById('panelCorredor').classList.remove('hidden');
-}
-mostrarFletes();
-}
+function elegirDirecto(rol,el){rolElegido=rol;document.querySelectorAll('.rol').forEach(r=>r.classList.remove('sel'));if(el) el.classList.add('sel');continuar();}
+function continuar(){document.getElementById('pantallaInicio').classList.add('hidden');document.getElementById('pantallaFletes').classList.remove('hidden');document.getElementById('bienvenida').innerText="Hola "+rolElegido;if(rolElegido=="Transportista"){document.getElementById('panelTransportista').classList.remove('hidden');document.getElementById('panelCorredor').classList.add('hidden');}else{document.getElementById('panelTransportista').classList.add('hidden');document.getElementById('panelCorredor').classList.remove('hidden');}mostrarFletes();}
 function volver(){document.getElementById('pantallaFletes').classList.add('hidden');document.getElementById('pantallaInicio').classList.remove('hidden');}
 function volverFletes(){document.getElementById('pantallaRastreo').classList.add('hidden');document.getElementById('pantallaFletes').classList.remove('hidden');}
 function volverRastreo(){document.getElementById('pantallaChat').classList.add('hidden');document.getElementById('pantallaRastreo').classList.remove('hidden');}
 function inicio(){document.getElementById('pantallaChat').classList.add('hidden');document.getElementById('pantallaInicio').classList.remove('hidden');}
 function irRastreo(){document.getElementById('pantallaFletes').classList.add('hidden');document.getElementById('pantallaRastreo').classList.remove('hidden');}
 function irChat(){document.getElementById('pantallaRastreo').classList.add('hidden');document.getElementById('pantallaChat').classList.remove('hidden');}
-
-function mostrarFletes(){
-let o=document.getElementById('origen').value;
-let d=document.getElementById('destino').value;
-let t=document.getElementById('tipo').value;
-if(estado=="disponible"){
-precioOriginal=parseInt(document.getElementById('precio').value) || 200;
-precioFinal=precioOriginal;
-}
-let html='<h2>Fletes en vivo (1)</h2><div class="box"><b>'+o+' → '+d+'</b><br>'+t+'<br>';
-html+='<div class="dosprecios"><div class="precioCaja" style="background:#e2e8f0"><div class="sub">TU PRECIO<br>(Corredor)</div><div style="font-size:24px;font-weight:bold">$'+precioOriginal+'</div></div>';
-
-if(estado=="pendiente"){
-html+='<div class="precioCaja" style="background:#fef3c7;border:2px solid #f59e0b"><div class="sub">PIDE EL CHOFER<br>(Transportista)</div><div style="font-size:24px;font-weight:bold;color:#f97316">$'+precioPropuesto+'</div><div style="font-size:12px;color:#92400e">⏳ Esperando respuesta</div></div></div>';
-}else if(estado=="aceptado"){
-html+='<div class="precioCaja" style="background:#dcfce7;border:2px solid #22c55e"><div class="sub">PRECIO FINAL<br>✅ ACEPTADO</div><div style="font-size:24px;font-weight:bold;color:#16a34a">$'+precioFinal+'</div></div></div>';
-}else if(estado=="rechazado"){
-html+='<div class="precioCaja" style="background:#fee2e2;border:2px solid #ef4444"><div class="sub">OFERTA<br>❌ RECHAZADA</div><div style="font-size:24px;font-weight:bold;color:#dc2626">$'+precioPropuesto+' NO</div></div></div>';
-}else{
-html+='<div class="precioCaja" style="background:#f1f5f9"><div class="sub">SIN OFERTA<br>TODAVÍA</div><div style="font-size:18px">—</div></div></div>';
-}
-
-if(rolElegido=="Transportista"){
-if(estado=="pendiente"){
-html+='<div class="pendiente"><b>⏳ Tu oferta de $'+precioPropuesto+' está pendiente</b><br><span class="sub">El corredor tiene que aceptarla. Vuelve como Corredor para aceptarla.</span></div>';
-html+='<button class="btn-outline" onclick="volver()">← Cambiar a Corredor para aceptar</button>';
-}else if(estado=="aceptado"){
-html+='<div class="ok">✅ El corredor aceptó tu precio de $'+precioFinal+'</div>';
-html+='<button class="btn-verde" onclick="aceptarViaje()">✅ ACEPTAR VIAJE POR $'+precioFinal+'</button>';
-}else if(estado=="rechazado"){
-html+='<div style="background:#fee2e2;padding:10px;border-radius:12px;margin-top:10px;text-align:center"><b>❌ El corredor rechazó $'+precioPropuesto+'</b><br>Precio vuelve a $'+precioOriginal+'</div>';
-html+='<button class="btn-verde" onclick="aceptarViaje()">✅ Aceptar por $'+precioOriginal+' o negocia otra vez</button>';
-html+='<div class="negociar"><b>💬 ¿Quieres pedir otro precio?</b><br><input id="miPrecio" type="number" value="'+(precioOriginal+30)+'"><button class="btn-naranja" onclick="negociar()">💬 Proponer Nuevo Precio</button></div>';
-}else{
-html+='<button class="btn-verde" onclick="aceptarViaje()">✅ ACEPTAR POR $'+precioOriginal+'</button>';
-html+='<div class="negociar"><b style="font-size:18px">💬 ¿Precio muy bajo?</b><p class="sub">Pide más. El corredor decide si acepta.</p><label>¿Cuánto pides tú?</label><input id="miPrecio" type="number" value="'+(precioOriginal+50)+'"><button class="btn-naranja" onclick="negociar()">💬 Proponer Precio</button></div>';
-}
-}else{
-// VISTA CORREDOR
-if(estado=="pendiente"){
-html+='<div class="pendiente"><b>🔔 ¡NUEVA OFERTA!</b><br>El transportista Juan Pérez pide <b>$'+precioPropuesto+'</b> en vez de tu $'+precioOriginal+'<br>Diferencia: +$'+(precioPropuesto-precioOriginal)+'</div>';
-html+='<button class="btn-verde" onclick="aceptarOferta()">✅ ACEPTAR $'+precioPropuesto+'</button>';
-html+='<button class="btn-rojo" onclick="rechazarOferta()">❌ RECHAZAR - Mantener $'+precioOriginal+'</button>';
-}else if(estado=="aceptado"){
-html+='<div class="ok">✅ Aceptaste $'+precioFinal+'. El transportista ya puede aceptar el viaje.</div>';
-html+='<button class="btn" onclick="irRastreo()">📍 Rastrear Este Flete</button>';
-}else{
-html+='<button class="btn" onclick="irRastreo()">📍 Rastrear Este Flete</button>';
-}
-}
-html+='</div>';
-document.getElementById('listaFletes').innerHTML=html;
-}
-
-function publicar(){
-estado="disponible"; precioPropuesto=0;
-mostrarFletes();
-let m=document.getElementById('msg');m.classList.remove('hidden');m.innerText='✅ ¡Flete publicado en $'+document.getElementById('precio').value+'!';
-setTimeout(()=>m.classList.add('hidden'),3000);
-}
-function negociar(){
-let miPrecio=parseInt(document.getElementById('miPrecio').value);
-if(!miPrecio || miPrecio<=precioOriginal){alert('Tienes que pedir MÁS que $'+precioOriginal);return;}
-precioPropuesto=miPrecio; estado="pendiente";
-alert('📩 ¡Oferta enviada! Pediste $'+miPrecio+'. Ahora entra como CORREDOR para aceptarla.');
-mostrarFletes();
-}
-function aceptarOferta(){
-precioFinal=precioPropuesto; estado="aceptado";
-let comision=Math.round(precioFinal*0.10); let total=precioFinal+comision;
-document.getElementById('precioChat').innerText="$"+precioFinal;
-document.getElementById('precioPago').innerText="$"+precioFinal;
-document.getElementById('comisionPago').innerText="$"+comision;
-document.getElementById('totalPago').innerText="$"+total;
-document.getElementById('btnPagar').innerText="🔒 Pagar $"+total+" Ahora";
-alert('✅ ¡Aceptaste $'+precioFinal+'! El transportista ya puede aceptar el viaje.');
-mostrarFletes();
-}
-function rechazarOferta(){
-estado="rechazado"; precioFinal=precioOriginal;
-alert('❌ Rechazaste $'+precioPropuesto+'. El precio queda en $'+precioOriginal);
-mostrarFletes();
-}
-function aceptarViaje(){
-ganancias+=precioFinal; viajes+=1;
-document.getElementById('ganancias').innerText="$"+ganancias;
-document.getElementById('viajesHechos').innerText=viajes+" viajes aceptados";
-let m=document.getElementById('msgAceptado');
-m.classList.remove('hidden');m.className='ganancia';m.innerHTML='<b style="font-size:20px">🎉 ¡VIAJE ACEPTADO!</b><br>¡Felicidades! Ganaste $'+precioFinal+'<br><button class="btn" onclick="irRastreo()">📍 Ir a Recoger Ahora →</button>';
-alert('🎉 ¡VIAJE ACEPTADO! Ganaste $'+precioFinal);
-}
-function simular(){
-avance+=25;if(avance>=100){avance=100;}
-let camion=document.getElementById('camion');
-camion.style.left=(20+avance*2.2)+'px';
-camion.style.top=(28+avance*0.9)+'px';
-document.getElementById('barraProgreso').style.width=avance+'%';
-document.getElementById('porcentaje').innerText=avance+'% completado';
-let eta=Math.max(0,45-Math.floor(avance*0.45));
-document.getElementById('eta').innerText=eta+' min';
-if(avance>=100){alert('🎉 ¡ENTREGADO! El contenedor llegó a Parque Sur');}
-}
-function enviar(){
-let inp=document.getElementById('textoChat');
-if(inp.value.trim()=="")return;
-let div=document.createElement('div');div.className='msg yo';div.innerText=inp.value;
-document.getElementById('chatBox').appendChild(div);
-inp.value='';
-setTimeout(()=>{let r=document.createElement('div');r.className='msg el';r.innerText='Entendido 👍 Voy en camino';document.getElementById('chatBox').appendChild(r);},1000);
-}
-function pagar(){
-let total=precioFinal+Math.round(precioFinal*0.10);
-let m=document.getElementById('msgPago');m.classList.remove('hidden');m.innerText='✅ ¡Pago exitoso! $'+total+' retenido. Se libera al chofer cuando entregue.';
-}
+function mostrarFletes(){let o=document.getElementById('origen').value;let d=document.getElementById('destino').value;let t=document.getElementById('tipo').value;if(estado=="disponible"){precioOriginal=parseInt(document.getElementById('precio').value)||200;precioFinal=precioOriginal;}let html='<h2>Fletes en vivo (1)</h2><div class="box"><b>'+o+' → '+d+'</b><br>'+t+'<br>';html+='<div class="dosprecios"><div class="precioCaja" style="background:#e2e8f0"><div class="sub">TU PRECIO<br>(Corredor)</div><div style="font-size:24px;font-weight:bold">$'+precioOriginal+'</div></div>';if(estado=="pendiente"){html+='<div class="precioCaja" style="background:#fef3c7;border:2px solid #f59e0b"><div class="sub">PIDE EL CHOFER</div><div style="font-size:24px;font-weight:bold;color:#f97316">$'+precioPropuesto+'</div><div style="font-size:12px">⏳ Esperando</div></div></div>';}else if(estado=="aceptado"){html+='<div class="precioCaja" style="background:#dcfce7;border:2px solid #22c55e"><div class="sub">PRECIO FINAL ✅</div><div style="font-size:24px;font-weight:bold;color:#16a34a">$'+precioFinal+'</div></div></div>';}else if(estado=="rechazado"){html+='<div class="precioCaja" style="background:#fee2e2;border:2px solid #ef4444"><div class="sub">OFERTA ❌</div><div style="font-size:24px;font-weight:bold;color:#dc2626">$'+precioPropuesto+' NO</div></div></div>';}else{html+='<div class="precioCaja" style="background:#f1f5f9"><div class="sub">SIN OFERTA</div><div style="font-size:18px">—</div></div></div>';}if(rolElegido=="Transportista"){if(estado=="pendiente"){html+='<div class="pendiente"><b>⏳ Tu oferta de $'+precioPropuesto+' está pendiente</b></div><button class="btn-outline" onclick="volver()">← Cambiar a Corredor para aceptar</button>';}else if(estado=="aceptado"){html+='<div class="ok">✅ El corredor aceptó $'+precioFinal+'</div><button class="btn-verde" onclick="aceptarViaje()">✅ ACEPTAR VIAJE POR $'+precioFinal+'</button>';}else if(estado=="rechazado"){html+='<div style="background:#fee2e2;padding:10px;border-radius:12px;margin-top:10px;text-align:center"><b>❌ Rechazó $'+precioPropuesto+'</b></div><button class="btn-verde" onclick="aceptarViaje()">✅ Aceptar por $'+precioOriginal+'</button><div class="negociar"><b>💬 ¿Pedir otro precio?</b><input id="miPrecio" type="number" value="'+(precioOriginal+30)+'"><button class="btn-naranja" onclick="negociar()">💬 Proponer Nuevo Precio</button></div>';}else{html+='<button class="btn-verde" onclick="aceptarViaje()">✅ ACEPTAR POR $'+precioOriginal+'</button><div class="negociar"><b style="font-size:18px">💬 ¿Precio muy bajo?</b><p class="sub">Pide más. El corredor decide.</p><label>¿Cuánto pides tú?</label><input id="miPrecio" type="number" value="'+(precioOriginal+50)+'"><button class="btn-naranja" onclick="negociar()">💬 Proponer Precio</button></div>';}}else{if(estado=="pendiente"){html+='<div class="pendiente"><b>🔔 ¡NUEVA OFERTA!</b><br>El transportista pide <b>$'+precioPropuesto+'</b> en vez de $'+precioOriginal+'</div><button class="btn-verde" onclick="aceptarOferta()">✅ ACEPTAR $'+precioPropuesto+'</button><button class="btn-rojo" onclick="rechazarOferta()">❌ RECHAZAR - Mantener $'+precioOriginal+'</button>';}else if(estado=="aceptado"){html+='<div class="ok">✅ Aceptaste $'+precioFinal+'</div><button class="btn" onclick="irRastreo()">📍 Rastrear Este Flete</button>';}else{html+='<button class="btn" onclick="irRastreo()">📍 Rastrear Este Flete</button>';}}html+='</div>';document.getElementById('listaFletes').innerHTML=html;}
+function publicar(){estado="disponible";precioPropuesto=0;mostrarFletes();let m=document.getElementById('msg');m.classList.remove('hidden');m.innerText='✅ ¡Flete publicado en $'+document.getElementById('precio').value+'!';setTimeout(()=>m.classList.add('hidden'),3000);}
+function negociar(){let miPrecio=parseInt(document.getElementById('miPrecio').value);if(!miPrecio||miPrecio<=precioOriginal){alert('Tienes que pedir MÁS que $'+precioOriginal);return;}precioPropuesto=miPrecio;estado="pendiente";alert('📩 ¡Oferta enviada! Pediste $'+miPrecio+'. Ahora entra como CORREDOR para aceptarla.');mostrarFletes();}
+function aceptarOferta(){precioFinal=precioPropuesto;estado="aceptado";let comision=Math.round(precioFinal*0.10);let total=precioFinal+comision;document.getElementById('precioChat').innerText="$"+precioFinal;document.getElementById('precioPago').innerText="$"+precioFinal;document.getElementById('comisionPago').innerText="$"+comision;document.getElementById('totalPago').innerText="$"+total;document.getElementById('btnPagar').innerText="🔒 Pagar $"+total+" Ahora";alert('✅ ¡Aceptaste $'+precioFinal+'!');mostrarFletes();}
+function rechazarOferta(){estado="rechazado";precioFinal=precioOriginal;alert('❌ Rechazaste $'+precioPropuesto+'. Queda en $'+precioOriginal);mostrarFletes();}
+function aceptarViaje(){ganancias+=precioFinal;viajes+=1;document.getElementById('ganancias').innerText="$"+ganancias;document.getElementById('viajesHechos').innerText=viajes+" viajes aceptados";let m=document.getElementById('msgAceptado');m.classList.remove('hidden');m.className='ganancia';m.innerHTML='<b style="font-size:20px">🎉 ¡VIAJE ACEPTADO!</b><br>Ganaste $'+precioFinal+'<br><button class="btn" onclick="irRastreo()">📍 Ir a Recoger Ahora →</button>';alert('🎉 ¡VIAJE ACEPTADO! Ganaste $'+precioFinal);}
+function simular(){avance+=25;if(avance>=100){avance=100;}let camion=document.getElementById('camion');camion.style.left=(20+avance*2.2)+'px';camion.style.top=(28+avance*0.9)+'px';document.getElementById('barraProgreso').style.width=avance+'%';document.getElementById('porcentaje').innerText=avance+'% completado';let eta=Math.max(0,45-Math.floor(avance*0.45));document.getElementById('eta').innerText=eta+' min';if(avance>=100){alert('🎉 ¡ENTREGADO! Llegó a Parque Sur');}}
+function enviar(){let inp=document.getElementById('textoChat');if(inp.value.trim()=="")return;let div=document.createElement('div');div.className='msg yo';div.innerText=inp.value;document.getElementById('chatBox').appendChild(div);inp.value='';setTimeout(()=>{let r=document.createElement('div');r.className='msg el';r.innerText='Entendido 👍 Voy en camino';document.getElementById('chatBox').appendChild(r);},1000);}
+function pagar(){let total=precioFinal+Math.round(precioFinal*0.10);let m=document.getElementById('msgPago');m.classList.remove('hidden');m.innerText='✅ ¡Pago exitoso! $'+total+' retenido.';}
 </script>
 </body>
 </html>
