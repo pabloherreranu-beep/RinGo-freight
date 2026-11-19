@@ -11,6 +11,7 @@ body{margin:0;background:#0f172a;color:white;padding:16px}
 h1{font-size:28px;margin:8px 0}h2{font-size:22px;margin:6px 0}
 .sub{color:#64748b;font-size:14px}
 .btn{background:#00e5ff;border:none;width:100%;padding:15px;border-radius:14px;font-size:18px;font-weight:bold;cursor:pointer;margin-top:12px;color:#0f172a}
+.btn-verde{background:#22c55e;border:none;width:100%;padding:15px;border-radius:14px;font-size:18px;font-weight:bold;cursor:pointer;margin-top:12px;color:white}
 .btn-outline{background:transparent;border:2px solid #00e5ff;color:#00e5ff;width:100%;padding:13px;border-radius:14px;font-size:18px;font-weight:bold;cursor:pointer;margin-top:12px}
 label{display:block;margin-top:14px;font-size:18px}
 select,input{width:100%;padding:13px;border-radius:12px;border:1px solid #ddd;background:#f1f5f9;font-size:17px;margin-top:6px}
@@ -31,26 +32,29 @@ select,input{width:100%;padding:13px;border-radius:12px;border:1px solid #ddd;ba
 .fila input{flex:1}
 .fila button{background:#00e5ff;border:none;border-radius:12px;padding:12px 16px;font-weight:bold}
 .ok{background:#dcfce7;color:#166534;padding:12px;border-radius:12px;margin-top:12px;text-align:center;font-weight:bold}
+.ganancia{background:#dcfce7;border:2px solid #22c55e;border-radius:14px;padding:14px;margin-top:12px;text-align:center}
 </style>
 </head>
 <body>
 
-<!-- PANTALLA 1: INICIO -->
 <div id="pantallaInicio" class="card">
 <h1>🚛 RinGo Freight</h1>
 <p class="sub">Conecta corredores, transportistas y clientes en Panamá</p>
 <h2>¿Quién eres?</h2>
-<div class="rol" id="rolCorredor" onclick="elegir('Corredor',this)"><b>📦 Corredor</b><br><span class="sub">Publica fletes y gana comisión</span></div>
-<div class="rol" id="rolTransportista" onclick="elegir('Transportista',this)"><b>🚛 Transportista</b><br><span class="sub">Acepta viajes y gana dinero</span></div>
-<div class="rol" id="rolCliente" onclick="elegir('Cliente',this)"><b>🏢 Cliente / Importador</b><br><span class="sub">Mueve tu contenedor</span></div>
+<div class="rol" onclick="elegir('Corredor',this)"><b>📦 Corredor</b><br><span class="sub">Publica fletes y gana comisión</span></div>
+<div class="rol" onclick="elegir('Transportista',this)"><b>🚛 Transportista</b><br><span class="sub">Acepta viajes y gana dinero</span></div>
+<div class="rol" onclick="elegir('Cliente',this)"><b>🏢 Cliente / Importador</b><br><span class="sub">Mueve tu contenedor</span></div>
 <button class="btn" onclick="continuar()">Continuar →</button>
 <p class="sub" style="text-align:center">Balboa • Colón • Parque Sur • Manzanillo</p>
 </div>
 
-<!-- PANTALLA 2: FLETES -->
 <div id="pantallaFletes" class="card hidden">
 <h1>Fletes en Vivo</h1>
 <p class="sub" id="bienvenida">Hola Corredor</p>
+<div id="panelTransportista" class="hidden">
+<div class="ganancia"><div style="font-size:14px;color:#166534">💰 MIS GANANCIAS HOY</div><div style="font-size:32px;font-weight:bold;color:#166534" id="ganancias">$0</div><div class="sub" id="viajesHechos">0 viajes aceptados</div></div>
+</div>
+<div id="panelCorredor">
 <label>Origen</label>
 <select id="origen"><option>Balboa</option><option>Colón</option><option>Manzanillo</option></select>
 <label>Destino</label>
@@ -60,13 +64,14 @@ select,input{width:100%;padding:13px;border-radius:12px;border:1px solid #ddd;ba
 <label>Tipo Contenedor</label>
 <select id="tipo"><option>40ft - Refrigerado</option><option>20ft - Seco</option><option>40ft - Seco</option></select>
 <button class="btn" onclick="publicar()">Publicar Flete</button>
+</div>
 <div id="msg" class="ok hidden"></div>
 <div id="listaFletes"></div>
+<div id="msgAceptado" class="hidden"></div>
 <button class="btn-outline" onclick="volver()">← Volver</button>
 <button class="btn" onclick="irRastreo()">📍 Ver Rastreo en Vivo →</button>
 </div>
 
-<!-- PANTALLA 2B: RASTREO -->
 <div id="pantallaRastreo" class="card hidden">
 <h1>📍 Rastreo en Vivo</h1>
 <p class="sub">Contenedor MSCU-48291 • Balboa → Parque Sur</p>
@@ -84,28 +89,23 @@ select,input{width:100%;padding:13px;border-radius:12px;border:1px solid #ddd;ba
 <div class="barra"><div id="barraProgreso" class="progreso"></div></div>
 <p>✅ <b>Recogido</b> Balboa 2:15 PM &nbsp; 🚛 <b>En camino</b> &nbsp; 📦 <b>Entrega</b> Parque Sur</p>
 <button class="btn" onclick="simular()">▶ Simular Avance del Camión</button>
-<p class="sub" style="text-align:center">Toca el botón para ver como se mueve el camión en vivo</p>
 </div>
 <button class="btn-outline" onclick="volverFletes()">← Volver a Fletes</button>
 <button class="btn" onclick="irChat()">💬 Chat y Pago →</button>
 </div>
 
-<!-- PANTALLA 3: CHAT + PAGO -->
 <div id="pantallaChat" class="card hidden">
 <h1>💬 Chat y Pago</h1>
 <div class="box"><b>🚛 Juan Pérez - Camión #PA-2847</b><br><span class="sub">Balboa → Parque Sur • $200 • 40ft Refrigerado</span><br><span style="color:green;font-weight:bold">● En línea ahora</span></div>
-
 <div class="chat" id="chatBox">
 <div class="msg el">Hola! Ya estoy en Balboa recogiendo el contenedor 👍</div>
 <div class="msg yo">Perfecto Juan, ¿a qué hora llegas a Parque Sur?</div>
 <div class="msg el">Llego en 45 min. Te aviso cuando esté cerca 📍</div>
 </div>
-
 <div class="fila">
 <input id="textoChat" placeholder="Escribe un mensaje...">
 <button onclick="enviar()">Enviar</button>
 </div>
-
 <div class="box">
 <h2 style="margin:0">💳 Pago Seguro</h2>
 <p class="sub">El dinero se libera solo cuando entregas</p>
@@ -115,7 +115,6 @@ select,input{width:100%;padding:13px;border-radius:12px;border:1px solid #ddd;ba
 <button class="btn" onclick="pagar()">🔒 Pagar $220 Ahora</button>
 <div id="msgPago" class="ok hidden"></div>
 </div>
-
 <button class="btn-outline" onclick="volverRastreo()">← Volver a Rastreo</button>
 <button class="btn" onclick="inicio()">🏠 Ir a Inicio</button>
 </div>
@@ -123,8 +122,23 @@ select,input{width:100%;padding:13px;border-radius:12px;border:1px solid #ddd;ba
 <script>
 let rolElegido="Corredor";
 let avance=10;
+let ganancias=0;
+let viajes=0;
+let precioActual=200;
 function elegir(rol,el){rolElegido=rol;document.querySelectorAll('.rol').forEach(r=>r.classList.remove('sel'));el.classList.add('sel');}
-function continuar(){document.getElementById('pantallaInicio').classList.add('hidden');document.getElementById('pantallaFletes').classList.remove('hidden');document.getElementById('bienvenida').innerText="Hola "+rolElegido;mostrarFletes();}
+function continuar(){
+document.getElementById('pantallaInicio').classList.add('hidden');
+document.getElementById('pantallaFletes').classList.remove('hidden');
+document.getElementById('bienvenida').innerText="Hola "+rolElegido;
+if(rolElegido=="Transportista"){
+document.getElementById('panelTransportista').classList.remove('hidden');
+document.getElementById('panelCorredor').classList.add('hidden');
+}else{
+document.getElementById('panelTransportista').classList.add('hidden');
+document.getElementById('panelCorredor').classList.remove('hidden');
+}
+mostrarFletes();
+}
 function volver(){document.getElementById('pantallaFletes').classList.add('hidden');document.getElementById('pantallaInicio').classList.remove('hidden');}
 function volverFletes(){document.getElementById('pantallaRastreo').classList.add('hidden');document.getElementById('pantallaFletes').classList.remove('hidden');}
 function volverRastreo(){document.getElementById('pantallaChat').classList.add('hidden');document.getElementById('pantallaRastreo').classList.remove('hidden');}
@@ -136,12 +150,28 @@ let o=document.getElementById('origen').value;
 let d=document.getElementById('destino').value;
 let p=document.getElementById('precio').value;
 let t=document.getElementById('tipo').value;
-document.getElementById('listaFletes').innerHTML='<h2>Fletes en vivo (1)</h2><div class="box"><b>'+o+' → '+d+'</b><br>$'+p+' • '+t+'<br><button class="btn" onclick="irRastreo()">📍 Rastrear Este Flete</button></div>';
+precioActual=parseInt(p);
+let boton = "";
+if(rolElegido=="Transportista"){
+boton='<button class="btn-verde" onclick="aceptarViaje()">✅ ACEPTAR ESTE VIAJE - Ganar $'+p+'</button><p class="sub" style="text-align:center">Te pagan al entregar en '+d+'</p>';
+}else{
+boton='<button class="btn" onclick="irRastreo()">📍 Rastrear Este Flete</button>';
+}
+document.getElementById('listaFletes').innerHTML='<h2>Fletes en vivo (1)</h2><div class="box"><b>'+o+' → '+d+'</b><br>$'+p+' • '+t+'<br><span style="color:green">🟢 Disponible ahora - ¡Sin chofer aún!</span><br>'+boton+'</div>';
 }
 function publicar(){
 mostrarFletes();
 let m=document.getElementById('msg');m.classList.remove('hidden');m.innerText='✅ ¡Flete publicado! Ya lo pueden ver los transportistas';
 setTimeout(()=>m.classList.add('hidden'),3000);
+}
+function aceptarViaje(){
+ganancias+=precioActual;
+viajes+=1;
+document.getElementById('ganancias').innerText="$"+ganancias;
+document.getElementById('viajesHechos').innerText=viajes+" viajes aceptados";
+let m=document.getElementById('msgAceptado');
+m.classList.remove('hidden');m.className='ganancia';m.innerHTML='<b style="font-size:20px">🎉 ¡VIAJE ACEPTADO!</b><br>¡Felicidades! Ganaste $'+precioActual+'<br>Ve a buscar el contenedor a Balboa<br><button class="btn" onclick="irRastreo()">📍 Ir a Recoger Ahora →</button>';
+alert('🎉 ¡VIAJE ACEPTADO! Ganaste $'+precioActual+' - Ve a Balboa a recoger');
 }
 function simular(){
 avance+=25;if(avance>=100){avance=100;}
@@ -159,13 +189,8 @@ let inp=document.getElementById('textoChat');
 if(inp.value.trim()=="")return;
 let div=document.createElement('div');div.className='msg yo';div.innerText=inp.value;
 document.getElementById('chatBox').appendChild(div);
-let texto=inp.value;inp.value='';
-setTimeout(()=>{
-let r=document.createElement('div');r.className='msg el';r.innerText='Entendido 👍 Voy en camino, te aviso al llegar';
-document.getElementById('chatBox').appendChild(r);
-document.getElementById('chatBox').scrollTop=9999;
-},1000);
-document.getElementById('chatBox').scrollTop=9999;
+inp.value='';
+setTimeout(()=>{let r=document.createElement('div');r.className='msg el';r.innerText='Entendido 👍 Voy en camino, te aviso al llegar';document.getElementById('chatBox').appendChild(r);document.getElementById('chatBox').scrollTop=9999;},1000);
 }
 function pagar(){
 let m=document.getElementById('msgPago');m.classList.remove('hidden');m.innerText='✅ ¡Pago exitoso! $220 retenido. Se libera al chofer cuando entregue.';
