@@ -7,6 +7,12 @@
 <style>
 *{box-sizing:border-box;font-family:Arial,sans-serif}
 body{margin:0;background:#0f172a;color:white;padding:16px}
+/* PANTALLA DE ENTRADA */
+#splash{position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:salir 0.5s ease 2.2s forwards}
+#splash img{width:230px;border-radius:28px;animation:zoom 2s ease}
+#splash p{color:#94a3b8;letter-spacing:4px;font-size:13px;margin-top:18px}
+@keyframes zoom{0%{transform:scale(0.7);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes salir{to{opacity:0;visibility:hidden}}
 .card{background:white;color:#0f172a;border-radius:22px;padding:18px;max-width:480px;margin:auto}
 h1{font-size:28px;margin:8px 0}h2{font-size:22px;margin:6px 0}
 .sub{color:#64748b;font-size:14px}
@@ -46,20 +52,22 @@ select,input{width:100%;padding:13px;border-radius:12px;border:1px solid #ddd;ba
 .logo-pin{position:absolute;right:16px;bottom:38px;font-size:22px;z-index:3}
 .logo-by{font-size:12px;letter-spacing:3px;color:#94a3b8;margin-top:6px;font-weight:600}
 .logo-title{font-size:22px;font-weight:900;margin:8px 0 0}
-.logo-mini{width:48px;height:48px;background:#000;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:#00e5ff;flex-shrink:0;position:relative;overflow:hidden}
+.logo-mini{width:48px;height:48px;background:#000;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:#00e5ff;flex-shrink:0}
+.logo-img{width:90px;height:90px;border-radius:22px;object-fit:cover}
 </style>
 </head>
 <body>
 
+<div id="splash"><img src="logo.png"><p>RINGO FREIGHT • by PH</p></div>
+
 <div id="pantallaInicio" class="card">
-<div class="logo-wrap"><div class="logo-box"><div class="logo-road"></div><div class="logo-R">R</div><div class="logo-pin">📍</div></div><div class="logo-by">by PH</div><div class="logo-title">RinGo Freight</div></div>
+<div class="logo-wrap"><img src="logo.png" class="logo-img" onerror="this.style.display='none';document.getElementById('logoFallback').style.display='flex'"><div id="logoFallback" class="logo-box" style="display:none"><div class="logo-road"></div><div class="logo-R">R</div><div class="logo-pin">📍</div></div><div class="logo-by">by PH</div><div class="logo-title">RinGo Freight</div></div>
 <p class="sub" style="text-align:center">Conecta corredores, transportistas y clientes en Panamá</p>
 <h2>¿Quién eres? Toca uno:</h2>
 <div class="rol" onclick="elegirDirecto('Corredor',this)"><b>📦 Corredor</b><br><span class="sub">Publica fletes y gana comisión - Toca aquí</span></div>
 <div class="rol" onclick="elegirDirecto('Transportista',this)"><b>🚛 Transportista</b><br><span class="sub">Acepta viajes y gana dinero - Toca aquí</span></div>
 <div class="rol" onclick="elegirDirecto('Cliente',this)"><b>🏢 Cliente / Importador</b><br><span class="sub">Mueve tu contenedor - Toca aquí</span></div>
 <button class="btn" onclick="continuar()">Continuar →</button>
-<p class="sub" style="text-align:center">Si tocas la tarjeta ya entras directo</p>
 </div>
 
 <div id="pantallaFletes" class="card hidden">
@@ -70,14 +78,10 @@ select,input{width:100%;padding:13px;border-radius:12px;border:1px solid #ddd;ba
 <div class="ganancia"><div style="font-size:14px;color:#166534">💰 MIS GANANCIAS HOY</div><div style="font-size:32px;font-weight:bold;color:#166534" id="ganancias">$0</div><div class="sub" id="viajesHechos">0 viajes aceptados</div></div>
 </div>
 <div id="panelCorredor">
-<label>Origen</label>
-<select id="origen"><option>Balboa</option><option>Colón</option><option>Manzanillo</option></select>
-<label>Destino</label>
-<select id="destino"><option>Parque Sur</option><option>Zona Libre</option><option>Howard</option></select>
-<label>Precio que ofreces $</label>
-<input id="precio" type="number" value="200">
-<label>Tipo Contenedor</label>
-<select id="tipo"><option>40ft - Refrigerado</option><option>20ft - Seco</option><option>40ft - Seco</option></select>
+<label>Origen</label><select id="origen"><option>Balboa</option><option>Colón</option><option>Manzanillo</option></select>
+<label>Destino</label><select id="destino"><option>Parque Sur</option><option>Zona Libre</option><option>Howard</option></select>
+<label>Precio que ofreces $</label><input id="precio" type="number" value="200">
+<label>Tipo Contenedor</label><select id="tipo"><option>40ft - Refrigerado</option><option>20ft - Seco</option><option>40ft - Seco</option></select>
 <button class="btn" onclick="publicar()">Publicar Flete</button>
 </div>
 <div id="msg" class="ok hidden"></div>
@@ -88,23 +92,13 @@ select,input{width:100%;padding:13px;border-radius:12px;border:1px solid #ddd;ba
 </div>
 
 <div id="pantallaRastreo" class="card hidden">
-<h1>📍 Rastreo en Vivo</h1>
-<p class="sub">Contenedor MSCU-48291 • Balboa → Parque Sur</p>
+<h1>📍 Rastreo en Vivo</h1><p class="sub">Contenedor MSCU-48291 • Balboa → Parque Sur</p>
 <div class="box"><b style="font-size:19px">🚛 Camión #PA-2847 - Juan Pérez</b><p style="margin:6px 0;color:#64748b">Chofer verificado ⭐ 4.9 • Placa PA-2847</p>
-<div class="mapa">
-<div class="calle" style="top:40px;left:0;width:100%;height:22px"></div>
-<div class="calle" style="top:120px;left:0;width:100%;height:22px"></div>
-<div class="calle" style="top:0;left:80px;width:22px;height:100%"></div>
-<div class="calle" style="top:0;left:220px;width:22px;height:100%"></div>
-<div style="position:absolute;top:28px;left:20px;font-size:13px">📍 BALBOA</div>
-<div style="position:absolute;bottom:20px;right:16px;font-size:13px;background:#0f172a;color:white;padding:4px 8px;border-radius:10px">🏁 PARQUE SUR</div>
-<div id="camion" class="camion">🚛</div>
-</div>
+<div class="mapa"><div class="calle" style="top:40px;left:0;width:100%;height:22px"></div><div class="calle" style="top:120px;left:0;width:100%;height:22px"></div><div class="calle" style="top:0;left:80px;width:22px;height:100%"></div><div class="calle" style="top:0;left:220px;width:22px;height:100%"></div><div style="position:absolute;top:28px;left:20px;font-size:13px">📍 BALBOA</div><div style="position:absolute;bottom:20px;right:16px;font-size:13px;background:#0f172a;color:white;padding:4px 8px;border-radius:10px">🏁 PARQUE SUR</div><div id="camion" class="camion">🚛</div></div>
 <div style="display:flex;justify-content:space-between;margin-top:10px"><b id="porcentaje" style="font-size:20px">10% completado</b><b>ETA: <span id="eta">45 min</span></b></div>
 <div class="barra"><div id="barraProgreso" class="progreso"></div></div>
 <p>✅ <b>Recogido</b> Balboa 2:15 PM &nbsp; 🚛 <b>En camino</b> &nbsp; 📦 <b>Entrega</b> Parque Sur</p>
-<button class="btn" onclick="simular()">▶ Simular Avance del Camión</button>
-</div>
+<button class="btn" onclick="simular()">▶ Simular Avance del Camión</button></div>
 <button class="btn-outline" onclick="volverFletes()">← Volver a Fletes</button>
 <button class="btn" onclick="irChat()">💬 Chat y Pago →</button>
 </div>
@@ -112,37 +106,16 @@ select,input{width:100%;padding:13px;border-radius:12px;border:1px solid #ddd;ba
 <div id="pantallaChat" class="card hidden">
 <h1>💬 Chat y Pago</h1>
 <div class="box"><b>🚛 Juan Pérez - Camión #PA-2847</b><br><span class="sub">Balboa → Parque Sur • <span id="precioChat">$200</span> • 40ft Refrigerado</span><br><span style="color:green;font-weight:bold">● En línea ahora</span></div>
-<div class="chat" id="chatBox">
-<div class="msg el">Hola! Ya estoy en Balboa recogiendo el contenedor 👍</div>
-<div class="msg yo">Perfecto Juan, ¿a qué hora llegas a Parque Sur?</div>
-<div class="msg el">Llego en 45 min. Te aviso cuando esté cerca 📍</div>
-</div>
-<div class="fila">
-<input id="textoChat" placeholder="Escribe un mensaje...">
-<button onclick="enviar()">Enviar</button>
-</div>
-<div class="box">
-<h2 style="margin:0">💳 Pago Seguro</h2>
-<p><b>Flete:</b> <span id="precioPago">$200</span><br><b>Comisión RinGo (10%):</b> <span id="comisionPago">$20</span><br><b>Total a pagar:</b> <span style="font-size:20px" id="totalPago">$220</span></p>
-<label>¿Cómo pagas?</label>
-<select id="metodo"><option>💳 Tarjeta Visa •••• 4242</option><option>🏦 Transferencia Banco General</option><option>📱 Yappy</option></select>
-<button class="btn" id="btnPagar" onclick="pagar()">🔒 Pagar $220 Ahora</button>
-<div id="msgPago" class="ok hidden"></div>
-</div>
+<div class="chat" id="chatBox"><div class="msg el">Hola! Ya estoy en Balboa recogiendo el contenedor 👍</div><div class="msg yo">Perfecto Juan, ¿a qué hora llegas a Parque Sur?</div><div class="msg el">Llego en 45 min. Te aviso cuando esté cerca 📍</div></div>
+<div class="fila"><input id="textoChat" placeholder="Escribe un mensaje..."><button onclick="enviar()">Enviar</button></div>
+<div class="box"><h2 style="margin:0">💳 Pago Seguro</h2><p><b>Flete:</b> <span id="precioPago">$200</span><br><b>Comisión RinGo (10%):</b> <span id="comisionPago">$20</span><br><b>Total a pagar:</b> <span style="font-size:20px" id="totalPago">$220</span></p><label>¿Cómo pagas?</label><select id="metodo"><option>💳 Tarjeta Visa •••• 4242</option><option>🏦 Transferencia Banco General</option><option>📱 Yappy</option></select><button class="btn" id="btnPagar" onclick="pagar()">🔒 Pagar $220 Ahora</button><div id="msgPago" class="ok hidden"></div></div>
 <button class="btn-outline" onclick="volverRastreo()">← Volver a Rastreo</button>
 <button class="btn" onclick="inicio()">🏠 Ir a Inicio</button>
 </div>
 
 <script>
-let rolElegido="Corredor";
-let avance=10;
-let ganancias=0;
-let viajes=0;
-let precioOriginal=200;
-let precioPropuesto=0;
-let precioFinal=200;
-let estado="disponible";
-function elegirDirecto(rol,el){rolElegido=rol;document.querySelectorAll('.rol').forEach(r=>r.classList.remove('sel'));if(el) el.classList.add('sel');continuar();}
+let rolElegido="Corredor";let avance=10;let ganancias=0;let viajes=0;let precioOriginal=200;let precioPropuesto=0;let precioFinal=200;let estado="disponible";
+function elegirDirecto(rol,el){rolElegido=rol;document.querySelectorAll('.rol').forEach(r=>r.classList.remove('sel'));if(el)el.classList.add('sel');continuar();}
 function continuar(){document.getElementById('pantallaInicio').classList.add('hidden');document.getElementById('pantallaFletes').classList.remove('hidden');document.getElementById('bienvenida').innerText="Hola "+rolElegido;if(rolElegido=="Transportista"){document.getElementById('panelTransportista').classList.remove('hidden');document.getElementById('panelCorredor').classList.add('hidden');}else{document.getElementById('panelTransportista').classList.add('hidden');document.getElementById('panelCorredor').classList.remove('hidden');}mostrarFletes();}
 function volver(){document.getElementById('pantallaFletes').classList.add('hidden');document.getElementById('pantallaInicio').classList.remove('hidden');}
 function volverFletes(){document.getElementById('pantallaRastreo').classList.add('hidden');document.getElementById('pantallaFletes').classList.remove('hidden');}
@@ -162,3 +135,4 @@ function pagar(){let total=precioFinal+Math.round(precioFinal*0.10);let m=docume
 </script>
 </body>
 </html>
+
