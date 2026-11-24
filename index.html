@@ -1,146 +1,37 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RinGo Freight - Panamá</title>
-<style>
-*{box-sizing:border-box;font-family:Arial,sans-serif}
-body{margin:0;background:#0A1628;color:white}
-#splash{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99}
-#splash img{width:260px;max-width:80%}
-#splash p{color:#3AA0FF;letter-spacing:2px}
-header{padding:14px;background:#07101F;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0}
-header b{color:#3AA0FF;font-size:20px}
-button{border:0;border-radius:10px;padding:12px;cursor:pointer;font-weight:bold}
-.btn-blue{background:#1E90FF;color:white;width:100%;margin:6px 0}
-.btn-ghost{background:#1A2A44;color:white;width:100%;margin:6px 0}
-.card{background:#13233F;margin:12px;padding:14px;border-radius:14px;border:1px solid #1E3A5F}
-input,select,textarea{width:100%;padding:12px;border-radius:10px;border:0;margin:6px 0;background:#0A1628;color:white;border:1px solid #2A4A70}
-.route-pill{display:inline-block;padding:7px 10px;margin:4px;border-radius:20px;background:#1A2A44;font-size:12px;cursor:pointer;border:1px solid #333}
-.route-pill.active{background:#1E90FF;border-color:#1E90FF}
-.price{color:#00D18F;font-size:22px;font-weight:bold}
-.small{font-size:12px;color:#A9B8CC}
-.hidden{display:none}
-.flex{display:flex;gap:8px}
-.tag{background:#FFB800;color:black;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:bold}
-</style>
-</head>
-<body>
-
-<div id="splash">
-  <img src="logo.png" alt="RinGo Freight" onerror="this.style.display='none'">
-  <h1 style="color:#3AA0FF;margin:10px 0 0">RinGo Freight</h1>
-  <p>CARGANDO TU RUTA...</p>
-</div>
-
-<header><b>⛵ RinGo Freight</b><span style="font-size:12px">PANAMÁ • EN VIVO</span></header>
-
-<div id="app" style="padding:4px;max-width:520px;margin:auto">
-
-<!-- INICIO -->
-<div id="view-home">
-  <div class="card"><h2>¿Quién eres hoy, capitán?</h2><p class="small">Elige tu rol para ver solo lo que te toca.</p>
-    <button class="btn-blue" onclick="go('corredor')">📦 SOY CORREDOR - Publicar flete</button>
-    <button class="btn-blue" onclick="go('chofer')">🚛 SOY TRANSPORTISTA - Ver fletes de mi ruta</button>
-    <button class="btn-ghost" onclick="go('cliente')">👤 SOY CLIENTE - Ver mi carga</button>
-  </div>
-  <div class="card"><h3>🔥 Rutas más activas en Panamá</h3><p class="small">Datos AMP 2025-2026: 9.91M TEU movidos. 89% transbordo.</p>
-    <div id="routeStats"></div>
-  </div>
-</div>
-
-<!-- CORREDOR -->
-<div id="view-corredor" class="hidden">
-  <div class="card"><h3>Publicar nuevo flete</h3>
-    <label>Ruta real (5 oficiales)</label>
-    <select id="f-ruta"></select>
-    <input id="f-origen" placeholder="Origen exacto ej: Puerto Balboa, Gate 3">
-    <input id="f-destino" placeholder="Destino exacto ej: Panamá Pacífico, Bodega 12">
-    <select id="f-tipo"><option>Contenedor 40ft</option><option>Contenedor 20ft</option><option>Carga suelta</option><option>Vehículo</option></select>
-    <input id="f-precio" type="number" placeholder="Precio ofrecido $ ej: 210">
-    <input id="f-fecha" type="date">
-    <button class="btn-blue" onclick="publicar()">PUBLICAR FLETE →</button>
-    <button class="btn-ghost" onclick="go('home')">← Volver</button>
-  </div>
-</div>
-
-<!-- CHOFER -->
-<div id="view-chofer" class="hidden">
-  <div class="card"><h3>🚛 ¿Cuál es tu ruta hoy?</h3><p class="small">Solo te mostramos fletes de esa ruta. Sin desorden.</p>
-    <div id="filterBar"></div>
-    <p class="small" id="countText"></p>
-  </div>
-  <div id="listaFletes"></div>
-  <button class="btn-ghost" onclick="go('home')">← Cambiar rol</button>
-</div>
-
-<!-- CLIENTE -->
-<div id="view-cliente" class="hidden">
-  <div class="card"><h3>📍 Rastreo en vivo</h3><p>Camión RG-204 • Balboa → Panamá Pacífico</p><p class="price">En camino - Llega en 18 min</p><div style="background:#0A1628;padding:10px;border-radius:10px">🟢 Balboa ——— 🚛 ——— ⚪ Panamá Pacífico<br><progress value="65" max="100" style="width:100%"></progress></div>
-  <button class="btn-blue" onclick="alert('Chat abierto con el corredor')">💬 ABRIR CHAT</button></div>
-  <button class="btn-ghost" onclick="go('home')">← Volver</button>
-</div>
-
-<!-- DETALLE / NEGOCIAR -->
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RinGo v21 - 60 Segundos</title>
+<style>*{box-sizing:border-box;font-family:Arial}body{margin:0;background:#0A1628;color:white}#splash{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99}#splash img{width:250px}header{padding:14px;background:#07101F;display:flex;justify-content:space-between}button{border:0;border-radius:10px;padding:12px;cursor:pointer;font-weight:bold}.btn-blue{background:#1E90FF;color:white;width:100%;margin:6px 0}.btn-green{background:#25D366;color:#000;width:100%;margin:6px 0}.btn-ghost{background:#1A2A44;color:white;width:100%;margin:6px 0}.btn-orange{background:#FF8C00;color:white;width:100%;margin:6px 0}.card{background:#13233F;margin:12px;padding:14px;border-radius:14px;border:1px solid #1E3A5F}input,select{width:100%;padding:12px;border-radius:10px;margin:6px 0;background:#0A1628;color:white;border:1px solid #2A4A70}.route-pill{display:inline-block;padding:7px 10px;margin:4px;border-radius:20px;background:#1A2A44;font-size:12px;cursor:pointer}.route-pill.active{background:#1E90FF}.price{color:#00D18F;font-size:22px;font-weight:bold}.small{font-size:12px;color:#A9B8CC}.hidden{display:none}.tag{background:#FFB800;color:black;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:bold}.alert{background:#FFF3CD;color:#000;padding:10px;border-radius:10px;font-size:13px}.success{background:#D4EDDA;color:#000;padding:10px;border-radius:10px}.pending{background:#FFEAA7;color:#000;padding:10px;border-radius:10px}.priceBox{border:2px solid #2A4A70;border-radius:12px;padding:12px;margin:8px 0;cursor:pointer}.priceBox.sel{border-color:#1E90FF;background:#0E2A4A}.timer{font-size:32px;font-weight:bold;color:#FF3B30;text-align:center;background:#000;padding:10px;border-radius:10px}.timer.warn{animation:blink 1s infinite}@keyframes blink{50%{opacity:.4}}</style></head>
+<body><div id="splash"><img src="logo.png"><h1 style="color:#3AA0FF">RinGo Freight</h1><p style="color:#3AA0FF">CARGANDO TU RUTA...</p></div>
+<header><b>⛵ RinGo Freight</b><span style="font-size:11px">⏱️ EMPRESA TIENE 60 SEG</span></header>
+<div style="max-width:520px;margin:auto">
+<div id="view-home"><div class="card"><h2>¿Quién eres hoy?</h2><button class="btn-blue" onclick="go('corredor')">📦 CORREDOR</button><button class="btn-blue" onclick="go('chofer')">🚛 TRANSPORTISTA</button><button class="btn-orange" onclick="go('empresa')">🏢 EMPRESA - Tienes 60 seg</button><button class="btn-ghost" onclick="go('cliente')">👤 CLIENTE</button></div><div class="card"><h3>⏱️ Regla del Minuto</h3><p class="small">Chofer propone precio → Empresa tiene <b>60 segundos</b> para aceptar o no → Si no responde, el flete vuelve a estar LIBRE y se lo ofrecemos a otro transportista.</p></div><div id="homePendientes"></div></div>
+<div id="view-corredor" class="hidden"><div class="card"><h3>Publicar flete</h3><select id="f-ruta"></select><input id="f-origen" placeholder="Origen"><input id="f-destino" placeholder="Destino"><input id="f-precio" type="number" placeholder="Precio base $ ej: 240"><select id="f-disp"><option value="muchos">Muchos camiones</option><option value="pocos">Pocos camiones (+15%)</option><option value="casi_nada">Casi no hay (+25%)</option></select><button class="btn-blue" onclick="publicar()">PUBLICAR →</button><button class="btn-ghost" onclick="go('home')">← Volver</button></div></div>
+<div id="view-chofer" class="hidden"><div class="card"><h3>🚛 Tu ruta</h3><div id="filterBar"></div></div><div id="listaFletes"></div><button class="btn-ghost" onclick="go('home')">← Volver</button></div>
+<div id="view-empresa" class="hidden"><div class="card"><h3>🏢 Panel Empresa</h3><p class="small">Tienes 60 segundos por propuesta. Si se acaba el tiempo, el flete vuelve a la calle.</p></div><div id="listaEmpresa"></div><button class="btn-ghost" onclick="go('home')">← Volver</button></div>
+<div id="view-cliente" class="hidden"><div class="card"><h3>📍 Mi carga</h3><p>Camión RG-204 • Balboa → Panamá Pacífico</p></div><button class="btn-ghost" onclick="go('home')">← Volver</button></div>
 <div id="view-detalle" class="hidden"><div class="card" id="detalleBox"></div></div>
-
+<div id="view-aceptado" class="hidden"><div class="card" id="aceptadoBox"></div></div>
 </div>
-
 <script>
-const RUTAS=[
-{id:'r1',nombre:'Colón (MIT/CCT) ↔ Balboa / PSA',corto:'Colón ↔ Balboa',km:'80 km',teu:'MIT 2.86M + Balboa 2.67M TEU',precio:'$185 - $273'},
-{id:'r2',nombre:'Balboa → Panamá Pacífico / Ciudad',corto:'Balboa → Pacífico',km:'15-25 km',teu:'Balboa 1.76M TEU Ene-Sep 2026',precio:'$90 - $140'},
-{id:'r3',nombre:'Puertos Colón → Zona Libre Colón',corto:'Colón → Zona Libre',km:'5-10 km',teu:'2da Zona Franca del mundo',precio:'$65 - $95'},
-{id:'r4',nombre:'PSA Rodman → Panamá Pacífico',corto:'PSA → Pacífico',km:'12-20 km',teu:'PSA 1.13M TEU +9.8%',precio:'$85 - $130'},
-{id:'r5',nombre:'Colón / Balboa → Tocumen / Interior',corto:'Puertos → Interior',km:'80-450 km',teu:'Distribución nacional',precio:'$180 - $450'},
-];
-let fletes=[
-{ruta:'r1',origen:'MIT Manzanillo, Gate 1',destino:'Puerto Balboa, Gate 3',tipo:'Contenedor 40ft',precio:240,fecha:'Hoy',corredor:'Carlos M.'},
-{ruta:'r2',origen:'Puerto Balboa',destino:'Panamá Pacífico, Bodega 12',tipo:'Contenedor 40ft',precio:115,fecha:'Hoy',corredor:'Pablo H.'},
-{ruta:'r3',origen:'CCT Colón',destino:'Zona Libre, Bodega 44',tipo:'Contenedor 20ft',precio:75,fecha:'Hoy',corredor:'Yaca Log.'},
-{ruta:'r4',origen:'PSA Rodman',destino:'Panamá Pacífico',tipo:'Contenedor 40ft',precio:110,fecha:'Mañana',corredor:'María L.'},
-{ruta:'r5',origen:'Balboa',destino:'Tocumen, Parque Industrial',tipo:'Carga suelta',precio:190,fecha:'Mañana',corredor:'Dist. Central'},
-];
-let filtro='todos';
-setTimeout(()=>{document.getElementById('splash').style.display='none'},1800);
-function go(v){
- ['home','corredor','chofer','cliente','detalle'].forEach(x=>document.getElementById('view-'+x).classList.add('hidden'));
- document.getElementById('view-'+v).classList.remove('hidden');
- if(v==='chofer') renderChofer(); if(v==='corredor') renderSelect();
- window.scrollTo(0,0);
-}
-function renderSelect(){
- document.getElementById('f-ruta').innerHTML=RUTAS.map(r=>`<option value="${r.id}">${r.nombre} - ${r.km}</option>`).join('');
-}
-function renderStats(){
- document.getElementById('routeStats').innerHTML=RUTAS.map(r=>`<div style="border-bottom:1px solid #223;padding:8px 0"><b>${r.corto}</b> <span class="tag">${r.km}</span><br><span class="small">${r.teu} • Mercado ${r.precio}</span><br><button class="btn-ghost" style="padding:8px;margin-top:6px" onclick="elegirRuta('${r.id}')">Ver fletes de esta ruta →</button></div>`).join('');
-}
-function elegirRuta(id){filtro=id;go('chofer')}
-function renderChofer(){
- let bar=`<span class="route-pill ${filtro==='todos'?'active':''}" onclick="setFiltro('todos')">Todas</span>`+RUTAS.map(r=>`<span class="route-pill ${filtro===r.id?'active':''}" onclick="setFiltro('${r.id}')">${r.corto}</span>`).join('');
- document.getElementById('filterBar').innerHTML=bar;
- let list=filtro==='todos'?fletes:fletes.filter(f=>f.ruta===filtro);
- document.getElementById('countText').innerText=list.length+' fletes en esta ruta • Actualizado hoy';
- document.getElementById('listaFletes').innerHTML=list.map((f,i)=>`<div class="card"><span class="tag">${RUTAS.find(r=>r.id===f.ruta).corto}</span><h3>${f.origen} → ${f.destino}</h3><p class="small">${f.tipo} • ${f.fecha} • Corredor: ${f.corredor}</p><p class="price">$${f.precio}</p><div class="flex"><button class="btn-blue" onclick="verDetalle(${fletes.indexOf(f)})">Ver y negociar</button><button class="btn-ghost" onclick="alert('¡Flete aceptado! Chat abierto')">Aceptar</button></div></div>`).join('')||'<div class="card">No hay fletes aún en esta ruta. ¡Sé el primero en publicar!</div>';
-}
+const RUTAS=[{id:'r1',nombre:'Colón ↔ Balboa',corto:'Colón ↔ Balboa'},{id:'r2',nombre:'Balboa → Panamá Pacífico',corto:'Balboa → Pacífico'},{id:'r3',nombre:'Colón → Zona Libre',corto:'Colón → Zona Libre'},{id:'r4',nombre:'PSA → Panamá Pacífico',corto:'PSA → Pacífico'},{id:'r5',nombre:'Puertos → Interior',corto:'Puertos → Interior'}];
+let fletes=[{ruta:'r1',origen:'MIT Manzanillo',destino:'Puerto Balboa',tipo:'40ft',precio:240,corredor:'Carlos M.',telefono:'50760000001',disp:'pocos',estado:'abierto',propuesta:null,tiempo:0},{ruta:'r2',origen:'Puerto Balboa',destino:'Panamá Pacífico',tipo:'40ft',precio:115,corredor:'Pablo H.',telefono:'50760000002',disp:'muchos',estado:'abierto',propuesta:null,tiempo:0}];
+let filtro='todos',selNivel='estandar',precioSel=0,timerInt=null;
+function esHoraPico(){let h=new Date().getHours();return (h>=6&&h<9)||(h>=16&&h<19)}
+function calc(base,disp){let pico=esHoraPico()?1.2:1;let d=disp==='pocos'?1.15:disp==='casi_nada'?1.25:1;let tot=pico*d;return {eco:Math.round(base*tot),std:Math.round(base*1.15*tot),exp:Math.round(base*1.35*tot)}}
+setTimeout(()=>document.getElementById('splash').style.display='none',1800);
+function go(v){['home','corredor','chofer','empresa','cliente','detalle','aceptado'].forEach(x=>document.getElementById('view-'+x).classList.add('hidden'));document.getElementById('view-'+v).classList.remove('hidden');if(v==='chofer')renderChofer();if(v==='corredor')renderSelect();if(v==='empresa')renderEmpresa();if(v==='home')renderHome();window.scrollTo(0,0)}
+function renderHome(){let pend=fletes.filter(f=>f.estado==='pendiente_empresa').length;document.getElementById('homePendientes').innerHTML=pend?`<div class="card"><div class="pending">⏳ ${pend} propuesta(s) esperando. La empresa tiene 60 seg o se libera.</div><button class="btn-orange" onclick="go('empresa')">Ir a Empresa →</button></div>`:'<div class="card"><p class="small">Sin pendientes. Todo libre.</p></div>'}
+function renderSelect(){document.getElementById('f-ruta').innerHTML=RUTAS.map(r=>`<option value="${r.id}">${r.nombre}</option>`).join('')}
+function renderChofer(){document.getElementById('filterBar').innerHTML=`<span class="route-pill ${filtro==='todos'?'active':''}" onclick="setFiltro('todos')">Todas</span>`+RUTAS.map(r=>`<span class="route-pill ${filtro===r.id?'active':''}" onclick="setFiltro('${r.id}')">${r.corto}</span>`).join('');let list=filtro==='todos'?fletes:fletes.filter(f=>f.ruta===filtro);document.getElementById('listaFletes').innerHTML=list.map(f=>{let idx=fletes.indexOf(f);let p=calc(f.precio,f.disp);let estadoTxt=f.estado==='pendiente_empresa'?`<div class="pending">⏳ Tu propuesta $${f.propuesta.precio} (${f.propuesta.nivel}) esperando empresa. Quedan <b>${f.tiempo} seg</b>. Si no responde, vuelve a la calle.</div>`:f.estado==='aprobado'?'<div class="success">✅ APROBADO POR EMPRESA</div>':f.estado==='rechazado'?'<div class="alert">❌ Empresa rechazó. Flete libre de nuevo, puedes proponer otro precio.</div>':f.estado==='liberado'?'<div class="alert">🔄 Se acabó el tiempo (60 seg). Flete liberado, inténtalo de nuevo u otro chofer lo coge.</div>':'';return `<div class="card"><span class="tag">${RUTAS.find(r=>r.id===f.ruta).corto}</span><h3>${f.origen} → ${f.destino}</h3><p class="small">Base $${f.precio}</p><p>🟢 $${p.eco} • 🟡 $${p.std} • 🔴 $${p.exp}</p>${estadoTxt}${f.estado==='aprobado'?`<a href="https://wa.me/${f.telefono}?text=${encodeURIComponent('Empresa aprobó '+f.origen+' a '+f.destino)}" target="_blank"><button class="btn-green">💬 WHATSAPP</button></a>`:`<button class="btn-blue" onclick="verDetalle(${idx})">Proponer precio →</button>`}</div>`}).join('')}
 function setFiltro(id){filtro=id;renderChofer()}
-function publicar(){
- let ruta=document.getElementById('f-ruta').value;
- let o=document.getElementById('f-origen').value||'Origen';
- let d=document.getElementById('f-destino').value||'Destino';
- let t=document.getElementById('f-tipo').value;
- let p=Number(document.getElementById('f-precio').value)||100;
- fletes.unshift({ruta,origen:o,destino:d,tipo:t,precio:p,fecha:document.getElementById('f-fecha').value||'Hoy',corredor:'Tú'});
- alert('¡Flete publicado en '+RUTAS.find(r=>r.id===ruta).corto+'!'); filtro=ruta; go('chofer');
-}
-function verDetalle(idx){
- let f=fletes[idx];
- document.getElementById('view-detalle').classList.remove('hidden');
- ['home','corredor','chofer','cliente'].forEach(x=>document.getElementById('view-'+x).classList.add('hidden'));
- document.getElementById('detalleBox').innerHTML=`<h3>${f.origen} → ${f.destino}</h3><p>${f.tipo} • ${RUTAS.find(r=>r.id===f.ruta).nombre}</p><p class="price">Precio ofrecido: $${f.precio}</p><p class="small">Corredor: ${f.corredor} • Comisión RinGo 8% incluida</p><label>Tu contraoferta $</label><input id="contra" type="number" value="${f.precio+20}"><button class="btn-blue" onclick="alert('Contraoferta enviada al corredor. Te avisa en el chat.')">ENVIAR CONTRAOFERTA</button><button class="btn-ghost" onclick="go('chofer')">← Volver a fletes</button>`;
-}
-renderStats(); renderSelect();
-</script>
-</body>
-</html>
+function publicar(){let ruta=document.getElementById('f-ruta').value;let o=document.getElementById('f-origen').value||'Origen';let d=document.getElementById('f-destino').value||'Destino';let p=Number(document.getElementById('f-precio').value)||240;let disp=document.getElementById('f-disp').value;fletes.unshift({ruta,origen:o,destino:d,tipo:'40ft',precio:p,corredor:'Tú',telefono:'50760000000',disp,estado:'abierto',propuesta:null,tiempo:0});alert('Publicado');filtro=ruta;go('chofer')}
+function verDetalle(idx){let f=fletes[idx];let p=calc(f.precio,f.disp);selNivel='estandar';precioSel=p.std;go('detalle');document.getElementById('detalleBox').innerHTML=`<h3>${f.origen} → ${f.destino}</h3><p class="small">Base $${f.precio}</p><div class="alert">⏱️ Al enviar, la empresa tendrá solo 60 SEGUNDOS para aceptar. Si no responde, el flete vuelve a la calle para otro transportista.</div><div class="priceBox" onclick="selPrecio('eco',${p.eco})" id="b-eco"><b>🟢 ECONÓMICO $${p.eco}</b></div><div class="priceBox sel" onclick="selPrecio('estandar',${p.std})" id="b-estandar"><b>🟡 ESTÁNDAR $${p.std}</b></div><div class="priceBox" onclick="selPrecio('express',${p.exp})" id="b-express"><b>🔴 EXPRESS $${p.exp} - MÁS ALTO</b></div><p class="small" id="resumen">Elegiste ESTÁNDAR $${p.std} → Si aprueba: Tú $${Math.round(p.std*0.85)} • RinGo $${Math.round(p.std*0.15)}</p><button class="btn-blue" onclick="proponer(${idx})">📩 ENVIAR - Empieza reloj 60 seg</button><button class="btn-ghost" onclick="go('chofer')">← Volver</button>`}
+function selPrecio(nivel,val){selNivel=nivel;precioSel=val;document.querySelectorAll('.priceBox').forEach(e=>e.classList.remove('sel'));document.getElementById('b-'+nivel).classList.add('sel');document.getElementById('resumen').innerText=`Elegiste ${nivel.toUpperCase()} $${val} → Si aprueba: Tú $${Math.round(val*0.85)} • RinGo $${Math.round(val*0.15)}`}
+function proponer(idx){let f=fletes[idx];if(!confirm('¿Enviar '+selNivel.toUpperCase()+' $'+precioSel+'? Empresa tiene 60 seg.'))return;f.estado='pendiente_empresa';f.propuesta={nivel:selNivel,precio:precioSel,chofer:'RG-204'};f.tiempo=60;iniciarReloj(idx);go('aceptado');document.getElementById('aceptadoBox').innerHTML=`<h2>📩 Enviado - Reloj corriendo</h2><div class="timer warn" id="timerBox">00:60</div><div class="pending">⏳ Esperando empresa. Si en 60 seg no responde, el flete se libera y se ofrece a otro transportista.</div><button class="btn-orange" onclick="go('empresa')">Ver como Empresa (demo) →</button><button class="btn-ghost" onclick="go('chofer')">← Ver fletes</button>`;actualizarTimerVisual()}
+function iniciarReloj(idx){clearInterval(timerInt);timerInt=setInterval(()=>{let f=fletes[idx];if(!f||f.estado!=='pendiente_empresa'){clearInterval(timerInt);return} f.tiempo--;actualizarTimerVisual();if(f.tiempo<=0){clearInterval(timerInt);f.estado='liberado';let old=f.propuesta;f.propuesta=null;f.tiempo=0;alert('⏰ Se acabaron los 60 segundos. La empresa no respondió. El flete vuelve a estar LIBRE para otro transportista.');go('chofer')}},1000)}
+function actualizarTimerVisual(){let el=document.getElementById('timerBox');if(el){let f=fletes.find(x=>x.estado==='pendiente_empresa');if(f)el.innerText='00:'+(f.tiempo<10?'0'+f.tiempo:f.tiempo)}}
+function renderEmpresa(){let list=fletes.filter(f=>f.estado==='pendiente_empresa');document.getElementById('listaEmpresa').innerHTML=list.length?list.map(f=>{let idx=fletes.indexOf(f);return `<div class="card"><span class="tag">${RUTAS.find(r=>r.id===f.ruta).corto}</span><h3>${f.origen} → ${f.destino}</h3><p class="small">Base $${f.precio} • Chofer propone:</p><p class="price">${f.propuesta.nivel.toUpperCase()} - $${f.propuesta.precio}</p><div class="timer warn">⏱️ 00:${f.tiempo<10?'0'+f.tiempo:f.tiempo}</div><p class="small">Si no decides, se libera solo y lo coge otro.</p><div style="display:flex;gap:8px"><button class="btn-green" onclick="decidir(${idx},true)">✅ APROBAR</button><button class="btn-ghost" onclick="decidir(${idx},false)">❌ RECHAZAR</button></div></div>`}).join(''):'<div class="card"><p>No hay propuestas. Todo libre.</p></div>'}
+function decidir(idx,aprueba){clearInterval(timerInt);let f=fletes[idx];if(aprueba){f.estado='aprobado';go('aceptado');document.getElementById('aceptadoBox').innerHTML=`<h2>✅ Empresa APROBÓ a tiempo</h2><div class="success"><b>CERRADO</b><br>Precio: $${f.propuesta.precio}<br>Comisión 15%: -$${Math.round(f.propuesta.precio*0.15)}<br>Chofer: $${Math.round(f.propuesta.precio*0.85)}<br>Pago retenido hasta entregar.</div><a href="https://wa.me/${f.telefono}?text=${encodeURIComponent('Empresa aprobó '+f.origen)}" target="_blank"><button class="btn-green">💬 WHATSAPP DESBLOQUEADO</button></a>`}else{f.estado='rechazado';f.propuesta=null;f.tiempo=0;alert('❌ Rechazado. Flete libre para otro transportista.');go('empresa')}}
+// Reloj en vista empresa se actualiza
+setInterval(()=>{if(document.getElementById('view-empresa')&&!document.getElementById('view-empresa').classList.contains('hidden')){let f=fletes.find(x=>x.estado==='pendiente_empresa');if(f&&f.tiempo>0){f.tiempo--;if(f.tiempo<=0){f.estado='liberado';f.propuesta=null;alert('⏰ Tiempo agotado. Flete liberado para otro transportista.');}renderEmpresa();}}},1000);
+renderSelect();renderHome();
+</script></body></html>
