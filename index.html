@@ -3,136 +3,144 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RinGo Freight</title>
+<title>RinGo Freight - Panamá</title>
 <style>
 *{box-sizing:border-box;font-family:Arial,sans-serif}
-body{margin:0;background:#0f172a;color:white;padding:16px}
-/* PANTALLA DE ENTRADA */
-#splash{position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:salir 0.5s ease 2.2s forwards}
-#splash img{width:230px;border-radius:28px;animation:zoom 2s ease}
-#splash p{color:#94a3b8;letter-spacing:4px;font-size:13px;margin-top:18px}
-@keyframes zoom{0%{transform:scale(0.7);opacity:0}100%{transform:scale(1);opacity:1}}
-@keyframes salir{to{opacity:0;visibility:hidden}}
-.card{background:white;color:#0f172a;border-radius:22px;padding:18px;max-width:480px;margin:auto}
-h1{font-size:28px;margin:8px 0}h2{font-size:22px;margin:6px 0}
-.sub{color:#64748b;font-size:14px}
-.btn{background:#00e5ff;border:none;width:100%;padding:15px;border-radius:14px;font-size:18px;font-weight:bold;cursor:pointer;margin-top:12px;color:#0f172a}
-.btn-verde{background:#22c55e;border:none;width:100%;padding:15px;border-radius:14px;font-size:18px;font-weight:bold;cursor:pointer;margin-top:12px;color:white}
-.btn-naranja{background:#f97316;border:none;width:100%;padding:15px;border-radius:14px;font-size:18px;font-weight:bold;cursor:pointer;margin-top:12px;color:white}
-.btn-rojo{background:#ef4444;border:none;width:100%;padding:15px;border-radius:14px;font-size:18px;font-weight:bold;cursor:pointer;margin-top:12px;color:white}
-.btn-outline{background:transparent;border:2px solid #00e5ff;color:#00e5ff;width:100%;padding:13px;border-radius:14px;font-size:18px;font-weight:bold;cursor:pointer;margin-top:12px}
-label{display:block;margin-top:14px;font-size:18px}
-select,input{width:100%;padding:13px;border-radius:12px;border:1px solid #ddd;background:#f1f5f9;font-size:17px;margin-top:6px}
+body{margin:0;background:#0A1628;color:white}
+#splash{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99}
+#splash img{width:260px;max-width:80%}
+#splash p{color:#3AA0FF;letter-spacing:2px}
+header{padding:14px;background:#07101F;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0}
+header b{color:#3AA0FF;font-size:20px}
+button{border:0;border-radius:10px;padding:12px;cursor:pointer;font-weight:bold}
+.btn-blue{background:#1E90FF;color:white;width:100%;margin:6px 0}
+.btn-ghost{background:#1A2A44;color:white;width:100%;margin:6px 0}
+.card{background:#13233F;margin:12px;padding:14px;border-radius:14px;border:1px solid #1E3A5F}
+input,select,textarea{width:100%;padding:12px;border-radius:10px;border:0;margin:6px 0;background:#0A1628;color:white;border:1px solid #2A4A70}
+.route-pill{display:inline-block;padding:7px 10px;margin:4px;border-radius:20px;background:#1A2A44;font-size:12px;cursor:pointer;border:1px solid #333}
+.route-pill.active{background:#1E90FF;border-color:#1E90FF}
+.price{color:#00D18F;font-size:22px;font-weight:bold}
+.small{font-size:12px;color:#A9B8CC}
 .hidden{display:none}
-.box{background:#f1f5f9;border-radius:14px;padding:12px;margin-top:10px}
-.rol{border:2px solid #e2e8f0;border-radius:14px;padding:16px;margin-top:10px;cursor:pointer}
-.rol.sel{border-color:#00e5ff;background:#ecfeff}
-.mapa{height:230px;background:#dbeafe;border-radius:16px;position:relative;overflow:hidden;margin-top:10px}
-.calle{position:absolute;background:white}
-.camion{position:absolute;top:28px;left:20px;font-size:38px;transition:all 0.8s;z-index:5}
-.barra{height:12px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin-top:10px}
-.progreso{height:100%;background:#00e5ff;width:10%;transition:width 0.8s}
-.chat{height:220px;overflow-y:auto;background:#f8fafc;border-radius:14px;padding:10px;margin-top:10px;display:flex;flex-direction:column;gap:8px}
-.msg{max-width:80%;padding:10px 12px;border-radius:14px;font-size:15px}
-.yo{background:#00e5ff;align-self:flex-end}
-.el{background:white;border:1px solid #e2e8f0;align-self:flex-start}
-.fila{display:flex;gap:8px;margin-top:10px}
-.fila input{flex:1}
-.fila button{background:#00e5ff;border:none;border-radius:12px;padding:12px 16px;font-weight:bold}
-.ok{background:#dcfce7;color:#166534;padding:12px;border-radius:12px;margin-top:12px;text-align:center;font-weight:bold}
-.ganancia{background:#dcfce7;border:2px solid #22c55e;border-radius:14px;padding:14px;margin-top:12px;text-align:center}
-.negociar{background:#fff7ed;border:2px solid #f97316;border-radius:14px;padding:12px;margin-top:12px}
-.pendiente{background:#fef3c7;border:2px solid #f59e0b;border-radius:14px;padding:12px;margin-top:12px}
-.dosprecios{display:flex;gap:10px;margin-top:10px}
-.precioCaja{flex:1;text-align:center;border-radius:12px;padding:10px}
-.logo-wrap{text-align:center;margin:6px 0 2px}
-.logo-box{width:115px;height:115px;background:#000;border-radius:28px;margin:0 auto;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 10px 25px rgba(0,0,0,.25);overflow:hidden}
-.logo-R{font-size:62px;font-weight:900;line-height:1;background:linear-gradient(135deg,#00e5ff,#2563eb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;position:relative;z-index:2;margin-top:-8px}
-.logo-road{position:absolute;left:12px;bottom:10px;width:90px;height:34px;border-left:5px solid #00e5ff;border-bottom:5px solid #00e5ff;border-bottom-left-radius:18px;z-index:1}
-.logo-pin{position:absolute;right:16px;bottom:38px;font-size:22px;z-index:3}
-.logo-by{font-size:12px;letter-spacing:3px;color:#94a3b8;margin-top:6px;font-weight:600}
-.logo-title{font-size:22px;font-weight:900;margin:8px 0 0}
-.logo-mini{width:48px;height:48px;background:#000;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:#00e5ff;flex-shrink:0}
-.logo-img{width:90px;height:90px;border-radius:22px;object-fit:cover}
+.flex{display:flex;gap:8px}
+.tag{background:#FFB800;color:black;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:bold}
 </style>
 </head>
 <body>
 
-<div id="splash"><img src="logo.png"><p>RINGO FREIGHT • by PH</p></div>
-
-<div id="pantallaInicio" class="card">
-<div class="logo-wrap"><img src="logo.png" class="logo-img" onerror="this.style.display='none';document.getElementById('logoFallback').style.display='flex'"><div id="logoFallback" class="logo-box" style="display:none"><div class="logo-road"></div><div class="logo-R">R</div><div class="logo-pin">📍</div></div><div class="logo-by">by PH</div><div class="logo-title">RinGo Freight</div></div>
-<p class="sub" style="text-align:center">Conecta corredores, transportistas y clientes en Panamá</p>
-<h2>¿Quién eres? Toca uno:</h2>
-<div class="rol" onclick="elegirDirecto('Corredor',this)"><b>📦 Corredor</b><br><span class="sub">Publica fletes y gana comisión - Toca aquí</span></div>
-<div class="rol" onclick="elegirDirecto('Transportista',this)"><b>🚛 Transportista</b><br><span class="sub">Acepta viajes y gana dinero - Toca aquí</span></div>
-<div class="rol" onclick="elegirDirecto('Cliente',this)"><b>🏢 Cliente / Importador</b><br><span class="sub">Mueve tu contenedor - Toca aquí</span></div>
-<button class="btn" onclick="continuar()">Continuar →</button>
+<div id="splash">
+  <img src="logo.png" alt="RinGo Freight" onerror="this.style.display='none'">
+  <h1 style="color:#3AA0FF;margin:10px 0 0">RinGo Freight</h1>
+  <p>CARGANDO TU RUTA...</p>
 </div>
 
-<div id="pantallaFletes" class="card hidden">
-<div style="display:flex;align-items:center;gap:10px"><div class="logo-mini">R</div><div><b style="font-size:18px">RinGo Freight</b><br><span class="sub" style="font-size:11px;letter-spacing:2px">by PH</span></div></div>
-<h1 style="margin-top:12px">Fletes en Vivo</h1>
-<p class="sub" id="bienvenida">Hola</p>
-<div id="panelTransportista" class="hidden">
-<div class="ganancia"><div style="font-size:14px;color:#166534">💰 MIS GANANCIAS HOY</div><div style="font-size:32px;font-weight:bold;color:#166534" id="ganancias">$0</div><div class="sub" id="viajesHechos">0 viajes aceptados</div></div>
-</div>
-<div id="panelCorredor">
-<label>Origen</label><select id="origen"><option>Balboa</option><option>Colón</option><option>Manzanillo</option></select>
-<label>Destino</label><select id="destino"><option>Parque Sur</option><option>Zona Libre</option><option>Howard</option></select>
-<label>Precio que ofreces $</label><input id="precio" type="number" value="200">
-<label>Tipo Contenedor</label><select id="tipo"><option>40ft - Refrigerado</option><option>20ft - Seco</option><option>40ft - Seco</option></select>
-<button class="btn" onclick="publicar()">Publicar Flete</button>
-</div>
-<div id="msg" class="ok hidden"></div>
-<div id="listaFletes"></div>
-<div id="msgAceptado" class="hidden"></div>
-<button class="btn-outline" onclick="volver()">← Volver</button>
-<button class="btn" onclick="irRastreo()">📍 Ver Rastreo en Vivo →</button>
+<header><b>⛵ RinGo Freight</b><span style="font-size:12px">PANAMÁ • EN VIVO</span></header>
+
+<div id="app" style="padding:4px;max-width:520px;margin:auto">
+
+<!-- INICIO -->
+<div id="view-home">
+  <div class="card"><h2>¿Quién eres hoy, capitán?</h2><p class="small">Elige tu rol para ver solo lo que te toca.</p>
+    <button class="btn-blue" onclick="go('corredor')">📦 SOY CORREDOR - Publicar flete</button>
+    <button class="btn-blue" onclick="go('chofer')">🚛 SOY TRANSPORTISTA - Ver fletes de mi ruta</button>
+    <button class="btn-ghost" onclick="go('cliente')">👤 SOY CLIENTE - Ver mi carga</button>
+  </div>
+  <div class="card"><h3>🔥 Rutas más activas en Panamá</h3><p class="small">Datos AMP 2025-2026: 9.91M TEU movidos. 89% transbordo.</p>
+    <div id="routeStats"></div>
+  </div>
 </div>
 
-<div id="pantallaRastreo" class="card hidden">
-<h1>📍 Rastreo en Vivo</h1><p class="sub">Contenedor MSCU-48291 • Balboa → Parque Sur</p>
-<div class="box"><b style="font-size:19px">🚛 Camión #PA-2847 - Juan Pérez</b><p style="margin:6px 0;color:#64748b">Chofer verificado ⭐ 4.9 • Placa PA-2847</p>
-<div class="mapa"><div class="calle" style="top:40px;left:0;width:100%;height:22px"></div><div class="calle" style="top:120px;left:0;width:100%;height:22px"></div><div class="calle" style="top:0;left:80px;width:22px;height:100%"></div><div class="calle" style="top:0;left:220px;width:22px;height:100%"></div><div style="position:absolute;top:28px;left:20px;font-size:13px">📍 BALBOA</div><div style="position:absolute;bottom:20px;right:16px;font-size:13px;background:#0f172a;color:white;padding:4px 8px;border-radius:10px">🏁 PARQUE SUR</div><div id="camion" class="camion">🚛</div></div>
-<div style="display:flex;justify-content:space-between;margin-top:10px"><b id="porcentaje" style="font-size:20px">10% completado</b><b>ETA: <span id="eta">45 min</span></b></div>
-<div class="barra"><div id="barraProgreso" class="progreso"></div></div>
-<p>✅ <b>Recogido</b> Balboa 2:15 PM &nbsp; 🚛 <b>En camino</b> &nbsp; 📦 <b>Entrega</b> Parque Sur</p>
-<button class="btn" onclick="simular()">▶ Simular Avance del Camión</button></div>
-<button class="btn-outline" onclick="volverFletes()">← Volver a Fletes</button>
-<button class="btn" onclick="irChat()">💬 Chat y Pago →</button>
+<!-- CORREDOR -->
+<div id="view-corredor" class="hidden">
+  <div class="card"><h3>Publicar nuevo flete</h3>
+    <label>Ruta real (5 oficiales)</label>
+    <select id="f-ruta"></select>
+    <input id="f-origen" placeholder="Origen exacto ej: Puerto Balboa, Gate 3">
+    <input id="f-destino" placeholder="Destino exacto ej: Panamá Pacífico, Bodega 12">
+    <select id="f-tipo"><option>Contenedor 40ft</option><option>Contenedor 20ft</option><option>Carga suelta</option><option>Vehículo</option></select>
+    <input id="f-precio" type="number" placeholder="Precio ofrecido $ ej: 210">
+    <input id="f-fecha" type="date">
+    <button class="btn-blue" onclick="publicar()">PUBLICAR FLETE →</button>
+    <button class="btn-ghost" onclick="go('home')">← Volver</button>
+  </div>
 </div>
 
-<div id="pantallaChat" class="card hidden">
-<h1>💬 Chat y Pago</h1>
-<div class="box"><b>🚛 Juan Pérez - Camión #PA-2847</b><br><span class="sub">Balboa → Parque Sur • <span id="precioChat">$200</span> • 40ft Refrigerado</span><br><span style="color:green;font-weight:bold">● En línea ahora</span></div>
-<div class="chat" id="chatBox"><div class="msg el">Hola! Ya estoy en Balboa recogiendo el contenedor 👍</div><div class="msg yo">Perfecto Juan, ¿a qué hora llegas a Parque Sur?</div><div class="msg el">Llego en 45 min. Te aviso cuando esté cerca 📍</div></div>
-<div class="fila"><input id="textoChat" placeholder="Escribe un mensaje..."><button onclick="enviar()">Enviar</button></div>
-<div class="box"><h2 style="margin:0">💳 Pago Seguro</h2><p><b>Flete:</b> <span id="precioPago">$200</span><br><b>Comisión RinGo (10%):</b> <span id="comisionPago">$20</span><br><b>Total a pagar:</b> <span style="font-size:20px" id="totalPago">$220</span></p><label>¿Cómo pagas?</label><select id="metodo"><option>💳 Tarjeta Visa •••• 4242</option><option>🏦 Transferencia Banco General</option><option>📱 Yappy</option></select><button class="btn" id="btnPagar" onclick="pagar()">🔒 Pagar $220 Ahora</button><div id="msgPago" class="ok hidden"></div></div>
-<button class="btn-outline" onclick="volverRastreo()">← Volver a Rastreo</button>
-<button class="btn" onclick="inicio()">🏠 Ir a Inicio</button>
+<!-- CHOFER -->
+<div id="view-chofer" class="hidden">
+  <div class="card"><h3>🚛 ¿Cuál es tu ruta hoy?</h3><p class="small">Solo te mostramos fletes de esa ruta. Sin desorden.</p>
+    <div id="filterBar"></div>
+    <p class="small" id="countText"></p>
+  </div>
+  <div id="listaFletes"></div>
+  <button class="btn-ghost" onclick="go('home')">← Cambiar rol</button>
+</div>
+
+<!-- CLIENTE -->
+<div id="view-cliente" class="hidden">
+  <div class="card"><h3>📍 Rastreo en vivo</h3><p>Camión RG-204 • Balboa → Panamá Pacífico</p><p class="price">En camino - Llega en 18 min</p><div style="background:#0A1628;padding:10px;border-radius:10px">🟢 Balboa ——— 🚛 ——— ⚪ Panamá Pacífico<br><progress value="65" max="100" style="width:100%"></progress></div>
+  <button class="btn-blue" onclick="alert('Chat abierto con el corredor')">💬 ABRIR CHAT</button></div>
+  <button class="btn-ghost" onclick="go('home')">← Volver</button>
+</div>
+
+<!-- DETALLE / NEGOCIAR -->
+<div id="view-detalle" class="hidden"><div class="card" id="detalleBox"></div></div>
+
 </div>
 
 <script>
-let rolElegido="Corredor";let avance=10;let ganancias=0;let viajes=0;let precioOriginal=200;let precioPropuesto=0;let precioFinal=200;let estado="disponible";
-function elegirDirecto(rol,el){rolElegido=rol;document.querySelectorAll('.rol').forEach(r=>r.classList.remove('sel'));if(el)el.classList.add('sel');continuar();}
-function continuar(){document.getElementById('pantallaInicio').classList.add('hidden');document.getElementById('pantallaFletes').classList.remove('hidden');document.getElementById('bienvenida').innerText="Hola "+rolElegido;if(rolElegido=="Transportista"){document.getElementById('panelTransportista').classList.remove('hidden');document.getElementById('panelCorredor').classList.add('hidden');}else{document.getElementById('panelTransportista').classList.add('hidden');document.getElementById('panelCorredor').classList.remove('hidden');}mostrarFletes();}
-function volver(){document.getElementById('pantallaFletes').classList.add('hidden');document.getElementById('pantallaInicio').classList.remove('hidden');}
-function volverFletes(){document.getElementById('pantallaRastreo').classList.add('hidden');document.getElementById('pantallaFletes').classList.remove('hidden');}
-function volverRastreo(){document.getElementById('pantallaChat').classList.add('hidden');document.getElementById('pantallaRastreo').classList.remove('hidden');}
-function inicio(){document.getElementById('pantallaChat').classList.add('hidden');document.getElementById('pantallaInicio').classList.remove('hidden');}
-function irRastreo(){document.getElementById('pantallaFletes').classList.add('hidden');document.getElementById('pantallaRastreo').classList.remove('hidden');}
-function irChat(){document.getElementById('pantallaRastreo').classList.add('hidden');document.getElementById('pantallaChat').classList.remove('hidden');}
-function mostrarFletes(){let o=document.getElementById('origen').value;let d=document.getElementById('destino').value;let t=document.getElementById('tipo').value;if(estado=="disponible"){precioOriginal=parseInt(document.getElementById('precio').value)||200;precioFinal=precioOriginal;}let html='<h2>Fletes en vivo (1)</h2><div class="box"><b>'+o+' → '+d+'</b><br>'+t+'<br>';html+='<div class="dosprecios"><div class="precioCaja" style="background:#e2e8f0"><div class="sub">TU PRECIO<br>(Corredor)</div><div style="font-size:24px;font-weight:bold">$'+precioOriginal+'</div></div>';if(estado=="pendiente"){html+='<div class="precioCaja" style="background:#fef3c7;border:2px solid #f59e0b"><div class="sub">PIDE EL CHOFER</div><div style="font-size:24px;font-weight:bold;color:#f97316">$'+precioPropuesto+'</div><div style="font-size:12px">⏳ Esperando</div></div></div>';}else if(estado=="aceptado"){html+='<div class="precioCaja" style="background:#dcfce7;border:2px solid #22c55e"><div class="sub">PRECIO FINAL ✅</div><div style="font-size:24px;font-weight:bold;color:#16a34a">$'+precioFinal+'</div></div></div>';}else if(estado=="rechazado"){html+='<div class="precioCaja" style="background:#fee2e2;border:2px solid #ef4444"><div class="sub">OFERTA ❌</div><div style="font-size:24px;font-weight:bold;color:#dc2626">$'+precioPropuesto+' NO</div></div></div>';}else{html+='<div class="precioCaja" style="background:#f1f5f9"><div class="sub">SIN OFERTA</div><div style="font-size:18px">—</div></div></div>';}if(rolElegido=="Transportista"){if(estado=="pendiente"){html+='<div class="pendiente"><b>⏳ Tu oferta de $'+precioPropuesto+' está pendiente</b></div><button class="btn-outline" onclick="volver()">← Cambiar a Corredor para aceptar</button>';}else if(estado=="aceptado"){html+='<div class="ok">✅ El corredor aceptó $'+precioFinal+'</div><button class="btn-verde" onclick="aceptarViaje()">✅ ACEPTAR VIAJE POR $'+precioFinal+'</button>';}else if(estado=="rechazado"){html+='<div style="background:#fee2e2;padding:10px;border-radius:12px;margin-top:10px;text-align:center"><b>❌ Rechazó $'+precioPropuesto+'</b></div><button class="btn-verde" onclick="aceptarViaje()">✅ Aceptar por $'+precioOriginal+'</button><div class="negociar"><b>💬 ¿Pedir otro precio?</b><input id="miPrecio" type="number" value="'+(precioOriginal+30)+'"><button class="btn-naranja" onclick="negociar()">💬 Proponer Nuevo Precio</button></div>';}else{html+='<button class="btn-verde" onclick="aceptarViaje()">✅ ACEPTAR POR $'+precioOriginal+'</button><div class="negociar"><b style="font-size:18px">💬 ¿Precio muy bajo?</b><p class="sub">Pide más. El corredor decide.</p><label>¿Cuánto pides tú?</label><input id="miPrecio" type="number" value="'+(precioOriginal+50)+'"><button class="btn-naranja" onclick="negociar()">💬 Proponer Precio</button></div>';}}else{if(estado=="pendiente"){html+='<div class="pendiente"><b>🔔 ¡NUEVA OFERTA!</b><br>El transportista pide <b>$'+precioPropuesto+'</b> en vez de $'+precioOriginal+'</div><button class="btn-verde" onclick="aceptarOferta()">✅ ACEPTAR $'+precioPropuesto+'</button><button class="btn-rojo" onclick="rechazarOferta()">❌ RECHAZAR - Mantener $'+precioOriginal+'</button>';}else if(estado=="aceptado"){html+='<div class="ok">✅ Aceptaste $'+precioFinal+'</div><button class="btn" onclick="irRastreo()">📍 Rastrear Este Flete</button>';}else{html+='<button class="btn" onclick="irRastreo()">📍 Rastrear Este Flete</button>';}}html+='</div>';document.getElementById('listaFletes').innerHTML=html;}
-function publicar(){estado="disponible";precioPropuesto=0;mostrarFletes();let m=document.getElementById('msg');m.classList.remove('hidden');m.innerText='✅ ¡Flete publicado en $'+document.getElementById('precio').value+'!';setTimeout(()=>m.classList.add('hidden'),3000);}
-function negociar(){let miPrecio=parseInt(document.getElementById('miPrecio').value);if(!miPrecio||miPrecio<=precioOriginal){alert('Tienes que pedir MÁS que $'+precioOriginal);return;}precioPropuesto=miPrecio;estado="pendiente";alert('📩 ¡Oferta enviada! Pediste $'+miPrecio+'. Ahora entra como CORREDOR para aceptarla.');mostrarFletes();}
-function aceptarOferta(){precioFinal=precioPropuesto;estado="aceptado";let comision=Math.round(precioFinal*0.10);let total=precioFinal+comision;document.getElementById('precioChat').innerText="$"+precioFinal;document.getElementById('precioPago').innerText="$"+precioFinal;document.getElementById('comisionPago').innerText="$"+comision;document.getElementById('totalPago').innerText="$"+total;document.getElementById('btnPagar').innerText="🔒 Pagar $"+total+" Ahora";alert('✅ ¡Aceptaste $'+precioFinal+'!');mostrarFletes();}
-function rechazarOferta(){estado="rechazado";precioFinal=precioOriginal;alert('❌ Rechazaste $'+precioPropuesto+'. Queda en $'+precioOriginal);mostrarFletes();}
-function aceptarViaje(){ganancias+=precioFinal;viajes+=1;document.getElementById('ganancias').innerText="$"+ganancias;document.getElementById('viajesHechos').innerText=viajes+" viajes aceptados";let m=document.getElementById('msgAceptado');m.classList.remove('hidden');m.className='ganancia';m.innerHTML='<b style="font-size:20px">🎉 ¡VIAJE ACEPTADO!</b><br>Ganaste $'+precioFinal+'<br><button class="btn" onclick="irRastreo()">📍 Ir a Recoger Ahora →</button>';alert('🎉 ¡VIAJE ACEPTADO! Ganaste $'+precioFinal);}
-function simular(){avance+=25;if(avance>=100){avance=100;}let camion=document.getElementById('camion');camion.style.left=(20+avance*2.2)+'px';camion.style.top=(28+avance*0.9)+'px';document.getElementById('barraProgreso').style.width=avance+'%';document.getElementById('porcentaje').innerText=avance+'% completado';let eta=Math.max(0,45-Math.floor(avance*0.45));document.getElementById('eta').innerText=eta+' min';if(avance>=100){alert('🎉 ¡ENTREGADO! Llegó a Parque Sur');}}
-function enviar(){let inp=document.getElementById('textoChat');if(inp.value.trim()=="")return;let div=document.createElement('div');div.className='msg yo';div.innerText=inp.value;document.getElementById('chatBox').appendChild(div);inp.value='';setTimeout(()=>{let r=document.createElement('div');r.className='msg el';r.innerText='Entendido 👍 Voy en camino';document.getElementById('chatBox').appendChild(r);},1000);}
-function pagar(){let total=precioFinal+Math.round(precioFinal*0.10);let m=document.getElementById('msgPago');m.classList.remove('hidden');m.innerText='✅ ¡Pago exitoso! $'+total+' retenido.';}
+const RUTAS=[
+{id:'r1',nombre:'Colón (MIT/CCT) ↔ Balboa / PSA',corto:'Colón ↔ Balboa',km:'80 km',teu:'MIT 2.86M + Balboa 2.67M TEU',precio:'$185 - $273'},
+{id:'r2',nombre:'Balboa → Panamá Pacífico / Ciudad',corto:'Balboa → Pacífico',km:'15-25 km',teu:'Balboa 1.76M TEU Ene-Sep 2026',precio:'$90 - $140'},
+{id:'r3',nombre:'Puertos Colón → Zona Libre Colón',corto:'Colón → Zona Libre',km:'5-10 km',teu:'2da Zona Franca del mundo',precio:'$65 - $95'},
+{id:'r4',nombre:'PSA Rodman → Panamá Pacífico',corto:'PSA → Pacífico',km:'12-20 km',teu:'PSA 1.13M TEU +9.8%',precio:'$85 - $130'},
+{id:'r5',nombre:'Colón / Balboa → Tocumen / Interior',corto:'Puertos → Interior',km:'80-450 km',teu:'Distribución nacional',precio:'$180 - $450'},
+];
+let fletes=[
+{ruta:'r1',origen:'MIT Manzanillo, Gate 1',destino:'Puerto Balboa, Gate 3',tipo:'Contenedor 40ft',precio:240,fecha:'Hoy',corredor:'Carlos M.'},
+{ruta:'r2',origen:'Puerto Balboa',destino:'Panamá Pacífico, Bodega 12',tipo:'Contenedor 40ft',precio:115,fecha:'Hoy',corredor:'Pablo H.'},
+{ruta:'r3',origen:'CCT Colón',destino:'Zona Libre, Bodega 44',tipo:'Contenedor 20ft',precio:75,fecha:'Hoy',corredor:'Yaca Log.'},
+{ruta:'r4',origen:'PSA Rodman',destino:'Panamá Pacífico',tipo:'Contenedor 40ft',precio:110,fecha:'Mañana',corredor:'María L.'},
+{ruta:'r5',origen:'Balboa',destino:'Tocumen, Parque Industrial',tipo:'Carga suelta',precio:190,fecha:'Mañana',corredor:'Dist. Central'},
+];
+let filtro='todos';
+setTimeout(()=>{document.getElementById('splash').style.display='none'},1800);
+function go(v){
+ ['home','corredor','chofer','cliente','detalle'].forEach(x=>document.getElementById('view-'+x).classList.add('hidden'));
+ document.getElementById('view-'+v).classList.remove('hidden');
+ if(v==='chofer') renderChofer(); if(v==='corredor') renderSelect();
+ window.scrollTo(0,0);
+}
+function renderSelect(){
+ document.getElementById('f-ruta').innerHTML=RUTAS.map(r=>`<option value="${r.id}">${r.nombre} - ${r.km}</option>`).join('');
+}
+function renderStats(){
+ document.getElementById('routeStats').innerHTML=RUTAS.map(r=>`<div style="border-bottom:1px solid #223;padding:8px 0"><b>${r.corto}</b> <span class="tag">${r.km}</span><br><span class="small">${r.teu} • Mercado ${r.precio}</span><br><button class="btn-ghost" style="padding:8px;margin-top:6px" onclick="elegirRuta('${r.id}')">Ver fletes de esta ruta →</button></div>`).join('');
+}
+function elegirRuta(id){filtro=id;go('chofer')}
+function renderChofer(){
+ let bar=`<span class="route-pill ${filtro==='todos'?'active':''}" onclick="setFiltro('todos')">Todas</span>`+RUTAS.map(r=>`<span class="route-pill ${filtro===r.id?'active':''}" onclick="setFiltro('${r.id}')">${r.corto}</span>`).join('');
+ document.getElementById('filterBar').innerHTML=bar;
+ let list=filtro==='todos'?fletes:fletes.filter(f=>f.ruta===filtro);
+ document.getElementById('countText').innerText=list.length+' fletes en esta ruta • Actualizado hoy';
+ document.getElementById('listaFletes').innerHTML=list.map((f,i)=>`<div class="card"><span class="tag">${RUTAS.find(r=>r.id===f.ruta).corto}</span><h3>${f.origen} → ${f.destino}</h3><p class="small">${f.tipo} • ${f.fecha} • Corredor: ${f.corredor}</p><p class="price">$${f.precio}</p><div class="flex"><button class="btn-blue" onclick="verDetalle(${fletes.indexOf(f)})">Ver y negociar</button><button class="btn-ghost" onclick="alert('¡Flete aceptado! Chat abierto')">Aceptar</button></div></div>`).join('')||'<div class="card">No hay fletes aún en esta ruta. ¡Sé el primero en publicar!</div>';
+}
+function setFiltro(id){filtro=id;renderChofer()}
+function publicar(){
+ let ruta=document.getElementById('f-ruta').value;
+ let o=document.getElementById('f-origen').value||'Origen';
+ let d=document.getElementById('f-destino').value||'Destino';
+ let t=document.getElementById('f-tipo').value;
+ let p=Number(document.getElementById('f-precio').value)||100;
+ fletes.unshift({ruta,origen:o,destino:d,tipo:t,precio:p,fecha:document.getElementById('f-fecha').value||'Hoy',corredor:'Tú'});
+ alert('¡Flete publicado en '+RUTAS.find(r=>r.id===ruta).corto+'!'); filtro=ruta; go('chofer');
+}
+function verDetalle(idx){
+ let f=fletes[idx];
+ document.getElementById('view-detalle').classList.remove('hidden');
+ ['home','corredor','chofer','cliente'].forEach(x=>document.getElementById('view-'+x).classList.add('hidden'));
+ document.getElementById('detalleBox').innerHTML=`<h3>${f.origen} → ${f.destino}</h3><p>${f.tipo} • ${RUTAS.find(r=>r.id===f.ruta).nombre}</p><p class="price">Precio ofrecido: $${f.precio}</p><p class="small">Corredor: ${f.corredor} • Comisión RinGo 8% incluida</p><label>Tu contraoferta $</label><input id="contra" type="number" value="${f.precio+20}"><button class="btn-blue" onclick="alert('Contraoferta enviada al corredor. Te avisa en el chat.')">ENVIAR CONTRAOFERTA</button><button class="btn-ghost" onclick="go('chofer')">← Volver a fletes</button>`;
+}
+renderStats(); renderSelect();
 </script>
 </body>
 </html>
-
